@@ -56,3 +56,6 @@ function App() {
 }
 
 export default App;
+
+
+// add logic to the orders page make it make to smae as analaytic page 
