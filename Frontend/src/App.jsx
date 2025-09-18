@@ -1,12 +1,50 @@
 import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
+import OrderSuccess from './pages/OrderSuccess'
+import Account from './pages/Account'
+import Login from './pages/Login'
+import Navbar from './components/Common/Navbar'
+import SearchBar from './components/Common/SearchBar'
+import Shop from './Pages/Shop'
+import ProductDetail from './Pages/ProductDetail'
+
+
 
 function App() {
   return (
-   <div className="flex flex-col space-y-3">
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+  <div className=" min-h-screen">
+    <Navbar />
+
+    
+    <div className=" absolute inset-x-0 top-16 ">
+      <SearchBar />
+      
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Shop />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/login" element={<Login />} />
+       <Route path="*" element={<div className='flex items-center justify-center h-screen font-[font3] text-4xl'>404 Not Found</div>} />
+
+
+        
+
+        
+
+
+      </Routes> 
     </div>
+    
+ 
+
+  </div>
   )
 }
 

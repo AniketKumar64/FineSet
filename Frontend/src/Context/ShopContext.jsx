@@ -17,7 +17,7 @@ const ShopContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const Discount = 25;
     const [search, setsearch] = useState('')
-    const [showSearch, setshowSearch] = useState(true)
+    const [showSearch, setshowSearch] = useState(false)
     const [cartitems, setCartItems] = useState({})
     const [products, setproducts] = useState([])
     const [token, settoken] = useState('')

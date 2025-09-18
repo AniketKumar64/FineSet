@@ -5,36 +5,31 @@
 
 @font-face {
     font-family: 'font1';
-    src: url(../public/fonts/Lausanne-300.woff2);
+    src: url(../public/fonts/Fontspring-DEMO-universo-black.otf) format('opentype');
+}
+@font-face {
+    font-family: 'font3';
+    src: url(../public/fonts/ZENTRY-Regular.woff2);
 }
 @font-face {
     font-family: 'font2';
     src: url(../public/fonts/Lausanne-500.woff2);
 }
 
-body,html{
+.headfont{
     font-family: 'font1', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: black;
-    overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6{
-    font-family: 'font2', sans-serif;
-    margin: 0;
-    padding: 0;
+body{
+    background:#0a0a0a;
+    color:#ffffff;
 }
+
 ::-webkit-scrollbar{
     display: none;
 
 }
 
-.active{
-    background-color: #f9fafb;
-    color: #000000;
-}
 
 @theme inline {
     --radius-sm: calc(var(--radius) - 4px);
