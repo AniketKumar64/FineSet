@@ -120,7 +120,7 @@ const Shop = () => {
                 "Women",
                 "Kids",
                 "Electronics",
-                "Watch",
+                "Clothing",
                 "Accessories",
               ].map((cat, idx) => (
                 <label

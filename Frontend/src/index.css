@@ -15,6 +15,12 @@
     font-family: 'font2';
     src: url(../public/fonts/Lausanne-500.woff2);
 }
+h2, h1, h3, h4, h5, h6, .headfont{
+    font-family: 'font1', sans-serif;
+}
+p,  a, li, button, input, textarea, select, .bodyfont{
+    font-family: 'font2', sans-serif;
+}
 
 .headfont{
     font-family: 'font1', sans-serif;

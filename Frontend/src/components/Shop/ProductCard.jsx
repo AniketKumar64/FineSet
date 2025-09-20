@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 const ProductCard = ({ product }) => {
   return (
      <Link to={`/product/${product._id}`} className="hover:scale-[1.02] transition group relative">
-        <div  className="relative h-[420px] rounded-2xl overflow-hidden shadow-md group">
+        <div  className="relative h-[420px] rounded-md overflow-hidden shadow-md group">
    
       <img
         src={product.images[0]}
@@ -19,11 +19,11 @@ const ProductCard = ({ product }) => {
       </button>
       <div className="absolute md:hidden w-full  bottom-0 text-black
         bg-white/10 backdrop-blur-xl border border-white/10 
-        rounded-b-xl px-4 py-3 flex flex-col gap-1
+        rounded-b-sm px-4 py-3 flex flex-col 
         opacity-100 translate-y-0
-        transition-all duration-500 shadow-lg">
-        <p className="text-sm text-black font-medium drop-shadow">{product.name}</p>
-        <p className="text-xl font-bold text-black drop-shadow">₹{product.price.toLocaleString() } <span className='line-through text-lg text-red-500'>₹ {(product.price * 1.2).toLocaleString()}</span> </p>
+        transition-all duration-500  gap-2 shadow-lg">
+        <p className="text-lg text-white/80 font-medium drop-shadow">{product.name}</p>
+        <p className="text-xl font-bold text-white drop-shadow">₹{product.price.toLocaleString() } <span className='line-through px-2 text-lg text-red-500'>₹ {(product.price * 1.2).toLocaleString()}</span> </p>
         
       </div>
 

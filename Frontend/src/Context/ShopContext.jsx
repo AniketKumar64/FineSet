@@ -2,6 +2,7 @@ import { createContext, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Toaster, toast } from "sonner";
 
 
 
@@ -28,7 +29,7 @@ const ShopContextProvider = (props) => {
     const addTOCart = async(itemId , size) =>{
 
         if(!size){
-      alert.error('Select Product Size')
+      toast.error("Please select a size!");
             return
         }
 
@@ -48,12 +49,22 @@ const ShopContextProvider = (props) => {
 
 
         }
+           
+            toast("Redirecting to cart...", {duration:1500})
+             toast.success("Item added to cart",{duration:500})
         setCartItems(cartData);
+
+         setTimeout(() => {
+            
+      navigate("/cart");
+    }, 1500);
 
 
         if (token){
             try{
                 await axios.post(backendUrl +'/api/v1/cart/add',{ itemId, size },{headers:{token}})
+              
+
             }
             catch(error){
                 console.log(error);

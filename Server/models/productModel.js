@@ -32,13 +32,12 @@ const productSchema = new mongoose.Schema({
     },
     bestSeller: {
         type: Boolean,  
-        default: false
+        default: true
     },  
 
     stock: {
-        type: Number,
-        required: true,
-        default: 0
+        type: Boolean,
+        default: true,
     },
     ratings: {
         type: Number,

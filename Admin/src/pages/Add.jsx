@@ -74,6 +74,9 @@ console.log({ image1, image2, image3, image4 });
     console.log(error);
   }
 
+  // todo add stock , rating discout and bestseller
+  
+
 
   };
   return (

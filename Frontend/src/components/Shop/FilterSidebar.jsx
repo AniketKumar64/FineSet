@@ -9,7 +9,7 @@ const FilterSidebar = ({onClose , toggleCategory , toggleSubcategory}) => {
       <div>
         <p className="mb-2 font-semibold title text-lg">Categories</p>
       <div className="flex  gap-1 flex-col  md:gap-2 md:overflow-visible">
-        {["Men", "Women", "Kids", "Electronics", "Watch", "Accessories"].map(
+        {["Men", "Women", "Kids", "Electronics", "Clothing", "Accessories"].map(
           (cat, idx) => (
             <label
               key={idx}
