@@ -48,20 +48,20 @@ const Navbar = () => {
 
   return (
     <nav className=" fixed top-0 z-10 w-full border-b border-border/40 black backdrop-blur supports-[backdrop-filter]:bg-background/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto gap-12 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-2 items-center">
             <button
               onClick={() => setmobileview(!mobileview)}
-              className="text-gray-600  flex focus:outline-none"
+              className="text-white font-bold  flex focus:outline-none"
             >
               {mobileview ? <HiX size={24} /> : <HiMenu size={24} />}
             </button>
             <NavLink
               to="/"
-              className="text-xl uppercase  md:text-2xl  font-[font1] "
+              className="text-xl   md:text-2xl  font-[font1] "
             >
-              Elite{" "}
+              Fineset{" "}
             </NavLink>
 
             
@@ -72,7 +72,7 @@ const Navbar = () => {
             <div className="flex flex-1 mx-4">
               <div className="relative w-full">
                 <HiOutlineSearch
-                  className="absolute top-3 left-3 text-gray-400"
+                  className="absolute top-3 left-3 "
                   size={20}
                 />
                 <input
@@ -116,7 +116,7 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-                       <NavLink to="/cart" className="text-gray-600 hover:text-gray-900 relative"><FaShoppingCart size={21} /> <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]  ">{getCartCount()}</p></NavLink>
+                       <NavLink to="/cart" className=" hover:text-white/80 relative"><FaShoppingCart size={21} /> <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]  ">{getCartCount()}</p></NavLink>
 
 
             {/* Dropdown Menu */}

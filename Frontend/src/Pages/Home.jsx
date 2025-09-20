@@ -1,5 +1,5 @@
 import React from 'react'
-import JewelryShowcase from '../components/Home/JewelryShowcase'
+
 import Hero from '../components/Home/Hero'
 
 const Home = () => {

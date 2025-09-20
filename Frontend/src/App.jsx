@@ -13,6 +13,8 @@ import ProductDetail from './Pages/ProductDetail'
 
 
 
+
+
 function App() {
   return (
   <div className=" min-h-screen">
@@ -31,7 +33,7 @@ function App() {
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
-       <Route path="*" element={<div className='flex items-center justify-center h-screen font-[font3] text-4xl'>404 Not Found</div>} />
+       <Route path="*" element={<div>404 Not Found</div>} />
 
 
         
