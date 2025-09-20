@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-
 import FilterSidebar from "../components/Shop/FilterSidebar.jsx";
 import { Filter } from "lucide-react";
 import ProductCard from "../components/Shop/ProductCard.jsx";
-import { ShopContext } from "../Context/ShopContext.jsx";
+import { ShopContext } from "../context/ShopContext.jsx";
+
 import {
   Select,
   SelectContent,
