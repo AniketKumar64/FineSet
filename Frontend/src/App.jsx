@@ -22,7 +22,8 @@ function App() {
 
     
     <div className=" absolute inset-x-0 top-16 ">
-      <SearchBar />
+       <SearchBar />
+     
       
       <Routes>
         <Route path="/" element={<Home />} />

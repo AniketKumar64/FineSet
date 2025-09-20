@@ -33,7 +33,7 @@ const ShopContextProvider = (props) => {
             return
         }
 
-        let cartData = structuredClone(cartitems || {});
+        let cartData = structuredClone(cartitems);
 
         if(cartData[itemId]){
             if(cartData[itemId][size]){
@@ -68,7 +68,7 @@ const ShopContextProvider = (props) => {
             }
             catch(error){
                 console.log(error);
-                alert.error(error.message)
+                toast.error(error.message)
             }
         }
 
@@ -110,7 +110,7 @@ const ShopContextProvider = (props) => {
         }
         catch(err){
             console.log(err);
-            alert.error(err.message)
+            toast.error(err.message)
         }
 
     }
@@ -142,11 +142,11 @@ const getProductsData = async()=>{
             setproducts(response.data.products)
         } 
         else{
-            alert.error(response.data.message)
+            toast.error(response.data.message)
         }
     } catch (error) {
         console.error("Error fetching products:", error);
-        alert.error(error.message)
+        toast.error(error.message)
     }
 
 }
@@ -164,7 +164,7 @@ const getUserCart = async (token)=>{
         }
     }catch(err){
         console.log(err);
-        alert.error(err.message);
+        toast.error(err.message);
     }
 
 }
@@ -188,6 +188,7 @@ useEffect(() => {
         settoken(localStorage.getItem('token'));
         getUserCart(localStorage.getItem('token'))
         console.log("Token Set from local storage");
+        
     }
 }, []);
 

@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useLocation } from "react-router-dom";
 
 const Shop = () => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
@@ -22,6 +23,9 @@ const Shop = () => {
   const [category, setCategory] = useState([]);
   const [subcategory, setSubcategory] = useState([]);
   const [sortType, setSortType] = useState("relevant");
+  const location = useLocation();
+
+  console.log(location);
 
   const toggleCategory = (e) => {
     const value = e.target.value.toLowerCase(); // normalize
@@ -47,7 +51,9 @@ const Shop = () => {
     // 🔎 Search
     if (search.trim()) {
       productsCopy = productsCopy.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
+        item.name.toLowerCase().includes(search.toLowerCase()) ||
+        item.category.toLowerCase().includes(search.toLowerCase()) ||
+        item.subCategory.toLowerCase().includes(search.toLowerCase())
       );
     }
 

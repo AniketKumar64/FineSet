@@ -9,8 +9,8 @@ const addToCart = async (req, res) => {
    try{
      const { userId , itemId, size } = req.body;
 
-    const UserData =await userModel.findById(userId);
-    let cartData = await UserData.cartData;
+    const userData = await userModel.findById(userId);
+    let cartData = await userData.cartData;
 
     if(cartData[itemId]){
        if(cartData[itemId][size]){
@@ -48,8 +48,8 @@ const addToCart = async (req, res) => {
 const updateCart = async (req, res) => {
     try{
         const { userId, itemId, size, quantity } = req.body;
-        const UserData = await userModel.findById(userId);
-        let cartData = await UserData.cartData;
+        const userData = await userModel.findById(userId);
+        let cartData = await userData.cartData;
 
         cartData[itemId][size] = quantity; // Update the quantity for the specified item and size
 
@@ -64,7 +64,7 @@ const updateCart = async (req, res) => {
         console.error(error);
         res.status(500).json({
             success: false,
-            message: 'Server error',
+            message: 'Server error',    
         });
     }
 
@@ -77,12 +77,12 @@ const getCartItems = async (req, res) => {
 
     try{
         const { userId } = req.body;
-        const UserData = await userModel.findById(userId);
-        let cartData = await UserData.cartData;
+        const userData = await userModel.findById(userId);
+        let cartData = await userData.cartData;
 
         res.json({
             success: true,
-            cartItems: cartData,
+         cartData,
         });
     }
     catch (error) {

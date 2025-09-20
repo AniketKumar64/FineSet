@@ -4,9 +4,6 @@ import { FaHeart, FaSearch, FaShoppingCart, FaUser } from "react-icons/fa";
 import {
   HiDotsVertical,
   HiMenu,
-  HiOutlineSearch,
-  HiOutlineShoppingCart,
-  HiUser,
   HiX,
 } from "react-icons/hi";
 import { ShopContext } from "../../context/ShopContext";
@@ -34,14 +31,17 @@ const Navbar = () => {
     setsearch,
     token,
     settoken,
-    setcartitems,
+    setCartItems,
   } = useContext(ShopContext);
 
+  
+
   const logoutHandler = () => {
-    navigate("/login");
+   
     localStorage.removeItem("token");
     settoken("");
-    setcartitems({});
+    setCartItems({});
+     navigate("/login");
   };
 
   
@@ -68,7 +68,7 @@ const Navbar = () => {
           </div>
 
 {/* todo search bar */}
-          <div className="hidden md:flex flex-1 ">
+          {/* <div className="hidden md:flex flex-1 ">
             <div className="flex flex-1 mx-4">
               <div className="relative w-full">
                 <HiOutlineSearch
@@ -84,13 +84,13 @@ const Navbar = () => {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
 
 
           <div className="flex items-center gap-4 space-x-0 md:space-x-4">
-            <div className="flex md:hidden items-center gap-2">
+            <div className="flex cursor-pointer items-center gap-2">
               <Search onClick={() => setshowSearch(!showSearch)} size={20} />
-              <p>Search</p>
+              
             </div>
             
       
@@ -99,21 +99,23 @@ const Navbar = () => {
 
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center ">
-                <User size={20} />
+                <User onClick={()=>token ? null : navigate("/login")} size={20} />
                 <p>Profile</p>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+             {
+              token ? ( <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Link to="/profile">Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/orders") } >Orders</DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
                 <DropdownMenuItem onClick={logoutHandler}>
                   Log Out <LogOutIcon className="ml-2 h-4 w-4" />
                 </DropdownMenuItem>
-              </DropdownMenuContent>
+              </DropdownMenuContent>) : null
+             }
             </DropdownMenu>
 
                        <NavLink to="/cart" className=" hover:text-white/80 relative"><FaShoppingCart size={21} /> <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]  ">{getCartCount()}</p></NavLink>
