@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
 import { toast } from "sonner";
 import axios from "axios";
+import { CreditCard, DollarSign, Smartphone, Wallet } from "lucide-react"
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
@@ -71,6 +72,8 @@ const PlaceOrder = () => {
           { headers: { token } }
         );
 
+
+
         if (response.data.success) {
           setCartItems({});
           navigate("/orders");
@@ -89,125 +92,135 @@ const PlaceOrder = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-white/5 p-6 rounded-lg shadow-lg space-y-6"
+        className="min-h-full mx-auto bg-white/5 p-6 rounded-lg shadow-lg space-y-6"
       >
         <h2 className="text-xl font-semibold mb-4">Shipping Information</h2>
+<div className="flex flex-col md:flex-row gap-8">
+  {/* Left Side: Shipping Info */}
+  <div className="flex-1 space-y-4">
+    {/* Name Fields */}
+    <div className="flex flex-col md:flex-row gap-4">
+      <input
+        name="firstName"
+        value={formData.firstName}
+        onChange={onChangeHandler}
+        placeholder="First Name"
+        className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+        required
+      />
+      <input
+        name="lastName"
+        value={formData.lastName}
+        onChange={onChangeHandler}
+        placeholder="Last Name"
+        className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+        required
+      />
+    </div>
 
-        {/* Name Fields */}
-        <div className="flex flex-col md:flex-row gap-4">
-          <input
-            name="firstName"
-            value={formData.firstName}
-            onChange={onChangeHandler}
-            placeholder="First Name"
-            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-            required
-          />
-          <input
-            name="lastName"
-            value={formData.lastName}
-            onChange={onChangeHandler}
-            placeholder="Last Name"
-            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-            required
-          />
-        </div>
+    <input
+      name="email"
+      value={formData.email}
+      onChange={onChangeHandler}
+      placeholder="Email"
+      type="email"
+      className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+      required
+    />
+    <input
+      name="phone"
+      value={formData.phone}
+      onChange={onChangeHandler}
+      placeholder="Phone"
+      type="tel"
+      className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+      required
+    />
+    <input
+      name="street"
+      value={formData.street}
+      onChange={onChangeHandler}
+      placeholder="Street Address"
+      className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+      required
+    />
 
-        <input
-          name="email"
-          value={formData.email}
-          onChange={onChangeHandler}
-          placeholder="Email"
-          type="email"
-          className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-          required
-        />
+    {/* City & State */}
+    <div className="flex flex-col md:flex-row gap-4">
+      <input
+        name="city"
+        value={formData.city}
+        onChange={onChangeHandler}
+        placeholder="City"
+        className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+        required
+      />
+      <input
+        name="state"
+        value={formData.state}
+        onChange={onChangeHandler}
+        placeholder="State"
+        className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+        required
+      />
+    </div>
 
-        <input
-          name="phone"
-          value={formData.phone}
-          onChange={onChangeHandler}
-          placeholder="Phone"
-          type="tel"
-          className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-          required
-        />
+    {/* Zipcode & Country */}
+    <div className="flex flex-col md:flex-row gap-4">
+      <input
+        name="zipcode"
+        value={formData.zipcode}
+        onChange={onChangeHandler}
+        placeholder="Zip Code"
+        className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+        required
+      />
+      <input
+        name="country"
+        value={formData.country}
+        onChange={onChangeHandler}
+        placeholder="Country"
+        className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+        required
+      />
+    </div>
+  </div>
 
-        <input
-          name="street"
-          value={formData.street}
-          onChange={onChangeHandler}
-          placeholder="Street Address"
-          className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-          required
-        />
+  {/* Right Side: Payment Methods */}
+  <div className="flex-1 mt-4 md:mt-0 space-y-4">
+    <h2 className="text-xl font-semibold mb-2">Payment Method</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+   {[
+    { value: "cod", label: "Cash on Delivery", icon: <DollarSign size={20} /> },
+    { value: "Stripe", label: "Stripe Payment", icon: <Smartphone size={20} /> },
+    { value: "Razorpay", label: "Razorpay Payment", icon: <Smartphone size={20} /> },
+ 
+  ].map((methodOption) => (
+    <label
+      key={methodOption.value}
+      className={`
+        flex items-center gap-2 px-4 py-3 rounded-lg border cursor-pointer transition-all
+        ${method === methodOption.value
+          ? "bg-white text-black border-white"
+          : "bg-black/10 text-white border-white/20 hover:bg-white/20"}
+      `}
+    >
+      <input
+        type="radio"
+        name="method"
+        value={methodOption.value}
+        checked={method === methodOption.value}
+        onChange={() => setMethod(methodOption.value)}
+        className="hidden"
+      />
+      {methodOption.icon}
+      <span>{methodOption.label}</span>
+    </label>
+  ))}
+</div>
 
-        <div className="flex flex-col md:flex-row gap-4">
-          <input
-            name="city"
-            value={formData.city}
-            onChange={onChangeHandler}
-            placeholder="City"
-            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-            required
-          />
-          <input
-            name="state"
-            value={formData.state}
-            onChange={onChangeHandler}
-            placeholder="State"
-            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-            required
-          />
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-4">
-          <input
-            name="zipcode"
-            value={formData.zipcode}
-            onChange={onChangeHandler}
-            placeholder="Zip Code"
-            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-            required
-          />
-          <input
-            name="country"
-            value={formData.country}
-            onChange={onChangeHandler}
-            placeholder="Country"
-            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
-            required
-          />
-        </div>
-
-        {/* Payment Method */}
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold mb-2">Payment Method</h2>
-          <div className="flex gap-4">
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="method"
-                value="cod"
-                checked={method === "cod"}
-                onChange={() => setMethod("cod")}
-                className="accent-white"
-              />
-              Cash on Delivery
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="method"
-                value="online"
-                checked={method === "online"}
-                onChange={() => setMethod("online")}
-                className="accent-white"
-              />
-              Online Payment
-            </label>
-          </div>
-        </div>
+  </div>
+</div>
 
         {/* Submit Button */}
         <button
