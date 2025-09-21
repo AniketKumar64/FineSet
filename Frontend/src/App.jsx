@@ -13,10 +13,11 @@ import Verify from './Pages/Verify'
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Cart from './Pages/Cart'
-import Checkout from './pages/Checkout'
+
 import OrderSuccess from './Pages/OrderSuccess'
-import Account from './Pages/Account'
+
 import Login from './Pages/Login'
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,11 +39,11 @@ function App() {
         <Route path="/products" element={<Shop />} />
         <Route path="/product/:productId" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
+       
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/user-orders" element={<UserOrders />} />
-        <Route path="/account" element={<Account />} />
+      
         <Route path="/login" element={<Login />} />
         <Route path="/verify" element={<Verify />} />
        <Route path="*" element={<div className='flex font-[font1] justify-center items-center h-screen text-4xl '>404 Not Found</div>} />
