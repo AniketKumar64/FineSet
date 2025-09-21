@@ -22,6 +22,7 @@ const ShopContextProvider = (props) => {
     const [cartitems, setCartItems] = useState({})
     const [products, setproducts] = useState([])
     const [token, settoken] = useState('')
+    
     const [wishlist, setwishlist] = useState({})
     const navigate = useNavigate()
 
@@ -177,6 +178,7 @@ const getUserCart = async (token)=>{
 
 
 
+
 useEffect(()=>{
     getProductsData()
 },[])
@@ -213,6 +215,7 @@ const value ={
     token, 
     settoken,
     setCartItems,
+
    
 
     

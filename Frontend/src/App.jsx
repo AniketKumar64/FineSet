@@ -10,6 +10,7 @@ import Navbar from './components/Common/Navbar'
 import SearchBar from './components/Common/SearchBar'
 import Shop from './Pages/Shop'
 import ProductDetail from './Pages/ProductDetail'
+import PlaceOrder from './Pages/PlaceOrder'
 
 
 
@@ -31,6 +32,7 @@ function App() {
         <Route path="/product/:productId" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/order-success" element={<OrderSuccess />} />
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />

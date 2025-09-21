@@ -1,70 +1,238 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext';
+import React, { useContext, useEffect, useState } from "react"
+import { ShopContext } from "../context/ShopContext"
+import { Plus, Minus, Trash2 } from "lucide-react"
+import { Button } from "../components/ui/button"
+import CartTotal from "../components/Cart/CartTotal"
 
 const Cart = () => {
-    const { products, cartitems,getCartAmount, currency, navigate,  updateQuantity } = useContext(ShopContext);
+  const {
+    products,
+    cartitems,
+    getCartAmount,
+    currency,
+    navigate,
+    updateQuantity,
+  } = useContext(ShopContext)
 
-  const [cartdata, setcartdata] = useState([]);
- useEffect(() => {
-if(products.length >0){
-   
-    const tempdata = [];
+  const [cartdata, setcartdata] = useState([])
+  const discountPercentage = 20
 
-    for (const items in cartitems) {
-      for (const item in cartitems[items]) {
-        if (cartitems[items][item] > 0) {
-          tempdata.push({
-            _id: items,
-            size: item,
-            quantity: cartitems[items][item]
-          });
+  // Step 1: Calculate the original total
+  const originalPrice = Math.round(
+    cartdata.reduce((total, item) => {
+      const product = products.find((prod) => prod._id === item._id)
+      if (product) {
+        return total + product.price * item.quantity
+      }
+      return total
+    }, 0)
+  )
+
+  // Step 2: Apply discount
+  const discountedPrice = Math.round(
+    originalPrice * (1 - discountPercentage / 100)
+  )
+
+  useEffect(() => {
+    if (products.length > 0) {
+      const tempdata = []
+      for (const items in cartitems) {
+        for (const item in cartitems[items]) {
+          if (cartitems[items][item] > 0) {
+            tempdata.push({
+              _id: items,
+              size: item,
+              quantity: cartitems[items][item],
+            })
+          }
         }
       }
+      setcartdata(tempdata)
     }
+  }, [cartitems, products])
 
-    setcartdata(tempdata);
-  }
-}, [cartitems,products]);
+  return (
+    <div className="min-h-screen bg-black text-white px-4 py-6">
+      <h1 className="text-2xl md:text-3xl font-bold text-center mb-6">
+        Cart Items
+      </h1>
 
-  return cartdata.length > 0 ? (
-     <div className='min-h-screen  bg-black/50 px-4 py-8'>
-        <h1 className='text-4xl font-serif font-bold text-center'>Your Cart</h1>
-        {
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Left side */}
+        <div className="md:w-3/5 w-full space-y-4">
+          {cartdata.length === 0 ? (
+            <p className="text-center text-gray-400">Your cart is empty</p>
+          ) : (
+            cartdata.map((item, index) => {
+              const product = products.find((prod) => prod._id === item._id)
+              if (!product) return null
 
-            cartdata.length > 0 ? (
-                <div className='max-w-5xl mx-auto mt-8 flex flex-col gap-6'>
-                    {cartdata.map((item)=>{
-                        const productdata = products.find((Product)=> Product._id === item._id);
-                        return(
-                            <div key={item._id+item.size} className='flex flex-col md:flex-row gap-4 md:gap-8 bg-white/10 p-4 rounded-lg'>
-                                <img src={productdata.images[0]} alt={productdata.name} className='w-full md:w-48 h-48 object-contain'/>
-                                <div className='flex-1 flex flex-col gap-2'>
-                                    <h2 className='text-2xl font-bold'>{productdata.name}</h2>
-                                    <p className='text-gray-300'>Size: {item.size}</p>
-                                    <p className='text-gray-300'>Price: {currency} {productdata.price}</p>
-                                    <div className='flex items-center gap-2 mt-2'>
-                                        <label className='text-gray-300'>Quantity:</label>
-                                        <input type="number" min={1} value={item.quantity} onChange={(e)=> updateQuantity(item._id, item.size, parseInt(e.target.value))} className='w-16 p-1 rounded text-black'/>
-                                    </div>
-                                </div>
-                                <div className='flex items-center'>
-                                    <p className='text-xl font-bold'>{currency} {productdata.price * item.quantity}</p>
-                                </div>
-                            </div>
-                        )
-                    })}
-                    <div className="flex justify-between font-bold text-lg border-t pt-2"><span>Total Amount</span><span>{currency}{getCartAmount() === 0 ? 0: getCartAmount() }.00</span></div>
+              return (
+                <div
+                  key={index}
+                  className="flex flex-col sm:flex-row gap-4 border border-white/10 rounded-lg p-4 bg-white/5"
+                >
+                  {/* Product Image */}
+                  <img
+                    onClick={() => navigate(`/product/${product._id}`)}
+                    src={product.images[0]}
+                    alt={product.name}
+                    className="w-full sm:w-28 h-28 object-cover rounded cursor-pointer"
+                  />
+
+                  {/* Product Info */}
+                  <div className="flex flex-col flex-1">
+                    <h2 className="font-semibold text-lg">{product.name}</h2>
+                    <p className="text-sm text-gray-400">Size: {item.size}</p>
+
+                    <p className="text-lg font-bold mt-1">
+                      {currency}
+                      {product.price * item.quantity}
+                    </p>
+
+                    {/* MRP and Savings */}
+
+                    <p className="text-sm text-gray-500">
+                      MRP:{" "}
+                      <span className="line-through">
+                        {currency}
+                        {Math.round(
+                          product.price / (1 - discountPercentage / 100)
+                        )}
+                      </span>
+                    </p>
+
+                    <div className="flex items-center gap-2 mt-2">
+                      <p className="text-green-400 font-light text-sm">
+                        Save:{" "}
+                        {currency}
+                        {Math.round(
+                          (discountPercentage / 100) *
+                            (product.price /
+                              (1 - discountPercentage / 100))
+                        )}
+                      </p>
+                      <p className="text-red-400 text-sm">
+                        {discountPercentage}% OFF
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Controls */}
+                  <div className="flex flex-row sm:flex-col items-center justify-between sm:items-end gap-3">
+                     <Button 
+                     onClick={() => updateQuantity(item._id, item.size, 0)}
+                     className="p-2 border border-red-500 text-red-500 hover:bg-red-600 hover:text-white transition">
+                      <Trash2 size={18} />
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        onClick={() =>
+                          updateQuantity(
+                            item._id,
+                            item.size,
+                            item.quantity - 1
+                          )
+                        }
+                        className="p-2 border border-white text-white hover:bg-white hover:text-black transition"
+                      >
+                        <Minus size={16} />
+                      </Button>
+
+                      <span className="px-2 font-semibold">
+                        {item.quantity}
+                      </span>
+
+                      <Button
+                        onClick={() =>
+                          updateQuantity(
+                            item._id,
+                            item.size,
+                            item.quantity + 1
+                          )
+                        }
+                        className="p-2 border border-white text-white hover:bg-white hover:text-black transition"
+                      >
+                        <Plus size={16} />
+                      </Button>
+                    </div>
+
+                   
+                  </div>
                 </div>
-            ) : (
-                <p className='text-center text-gray-300 mt-8'>Your cart is empty.</p>
-            )}
+              )
+            })
+          )}
+        </div>
+
+        {/* Right side - Order Summary */}
+        <div className="md:w-2/5 w-full">
+             <div className="border border-white/10 rounded-lg p-5 bg-white/5">
+               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+         
+               <div className="flex justify-between mb-2 text-gray-300">
+                 <span>Original Price:</span>
+                 <span>
+                   {currency}
+                   {originalPrice}
+                 </span>
+               </div>
+         
+               <div className="flex justify-between mb-2 text-gray-300">
+                 <span>Discount:</span>
+                 <span className=" flex items-center gap-1">
+                   <Minus size={16} />
+                   {originalPrice - discountedPrice}
+                 </span>
+               </div>
+         
+               <div className="flex justify-between mb-2 text-gray-300">
+                 <span>Shipping:</span>
+                 <span>
+                   {discountedPrice > 500 ? "Free" : `${currency} 50`}
+                 </span>
+               </div>
+         
+               <div className="flex justify-between mb-2 text-gray-300">
+                 <span>Tax:</span>
+                 <span>
+                   {currency}
+                   {Math.round(0.01 * discountedPrice)}
+                 </span>
+               </div>
+         
+               <div className="flex justify-between mb-2 text-gray-300">
+                 <span>Discounted Price:</span>
+                 <span>
+                   {currency}
+                   {discountedPrice}
+                 </span>
+               </div>
+         
+               <div className="flex justify-between font-bold text-lg border-t border-white/20 pt-3">
+                 <span>Total:</span>
+                 <span>
+                   {currency}
+                   {discountedPrice > 500
+                     ? discountedPrice + Math.round(0.01 * discountedPrice)
+                     : discountedPrice + 50 + Math.round(0.01 * discountedPrice)}
+                 </span>
+               </div>
+         
+             </div>
+         <div className=" w-full flex justify-end ">
+           <Button
+            onClick={() => navigate("/place-order")}
+            disabled={cartdata.length === 0}
+            className=" w-full md:w-1/2  flex items-center justify-center mt-4 py-4 md:px-6 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition"
+          >
+            Proceed to Checkout
+          </Button>
+         </div>
+        </div>
       </div>
-  ) : (
-    <div className='min-h-screen flex items-center justify-center bg-black/50 px-4'>
-        <h1 className='text-4xl font-serif font-bold text-center'>Your cart is empty.</h1>
     </div>
   )
 }
 
-          
 export default Cart
