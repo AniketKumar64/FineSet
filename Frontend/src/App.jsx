@@ -2,10 +2,7 @@ import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
 
-import Checkout from './pages/Checkout'
-import OrderSuccess from './pages/OrderSuccess'
-import Account from './pages/Account'
-import Login from './pages/Login'
+
 import Navbar from './components/Common/Navbar'
 import SearchBar from './components/Common/SearchBar'
 import Shop from './Pages/Shop'
@@ -16,6 +13,10 @@ import Verify from './Pages/Verify'
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Cart from './Pages/Cart'
+import Checkout from './pages/Checkout'
+import OrderSuccess from './Pages/OrderSuccess'
+import Account from './Pages/Account'
+import Login from './Pages/Login'
 
 gsap.registerPlugin(ScrollTrigger);
 
