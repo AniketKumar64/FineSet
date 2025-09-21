@@ -1,6 +1,8 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 
 import Navbar from './components/Common/Navbar'

@@ -2,26 +2,115 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <div className=" bg-black text-gray-400 bodyfont  mt-20">
-      <div className="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="bg-white border-t border-gray-200 py-12">
+        <div className="px-8">
+          <div className="grid grid-cols-5 gap-8">
             <div>
-                <h3 className="text-lg font-semibold mb-4 headfont text-white">About Us</h3>
-                <p className="text-sm">
-                    We are committed to providing high-quality products and excellent customer service. Our mission is to enhance your lifestyle with our unique offerings.
-                </p>
+              <h4 className="font-bold text-black mb-4">Fineset.</h4>
+              <p className="text-gray-600 text-sm mb-4">
+                Premium menswear for the modern professional. Quality
+                craftsmanship meets contemporary style.
+              </p>
+              <div className="flex space-x-4">
+                <i className="fab fa-facebook text-gray-600 cursor-pointer hover:text-black"></i>
+                <i className="fab fa-twitter text-gray-600 cursor-pointer hover:text-black"></i>
+                <i className="fab fa-instagram text-gray-600 cursor-pointer hover:text-black"></i>
+                <i className="fab fa-linkedin text-gray-600 cursor-pointer hover:text-black"></i>
+              </div>
             </div>
             <div>
-                <h3 className="text-lg font-semibold mb-4 headfont text-white">Customer Service</h3>
-                <ul className="space-y-2 text-sm">
-                    <li><a href="#" className="hover:underline">Contact Us</a></li>
-                    <li><a href="#" className="hover:underline">Returns</a></li>
-                    <li><a href="#" className="hover:underline">Shipping Info</a></li>
-                </ul>
+              <h5 className="font-semibold text-black mb-4">Shop</h5>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    New Arrivals
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Jackets
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Shirts
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Accessories
+                  </a>
+                </li>
+              </ul>
             </div>
+            <div>
+              <h5 className="font-semibold text-black mb-4">Support</h5>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Size Guide
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Returns
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold text-black mb-4">Company</h5>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Press
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Blog
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold text-black mb-4">Payment Methods</h5>
+              <div className="flex space-x-4">
+                <i className="fab fa-cc-visa text-2xl text-gray-600"></i>
+                <i className="fab fa-cc-mastercard text-2xl text-gray-600"></i>
+                <i className="fab fa-cc-paypal text-2xl text-gray-600"></i>
+                <i className="fab fa-cc-apple-pay text-2xl text-gray-600"></i>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-200 mt-8 pt-8 text-center">
+            <p className="text-sm text-gray-600">
+              © 2025 Fineset. All rights reserved. | Privacy Policy | Terms of
+              Service
+            </p>
+          </div>
         </div>
-      </div>
-    </div>
+      </footer>
   )
 }
 
