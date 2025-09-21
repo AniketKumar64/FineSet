@@ -1,21 +1,21 @@
 export const dashdetail = [
   {
     "title": "Total Revenue",
-    "value": "$1,250.00",
+    "value": "1,250.00",
     "change": "+12.5%",
     "changeColor": "green",
     "description": "Trending up this month"
   },
   {
     "title": "New Customers",
-    "value": "1,234",
+    "value": "14",
     "change": "-20%",
     "changeColor": "red",
     "description": "Acquisition needs attention"
   },
   {
     "title": "Active Accounts",
-    "value": "45,678",
+    "value": "04",
     "change": "+12.5%",
     "changeColor": "green",
     "description": "Strong user retention"

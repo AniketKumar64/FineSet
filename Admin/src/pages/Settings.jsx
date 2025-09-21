@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 const Settings = () => {
-  const [username, setUsername] = useState("admin_user");
-  const [email, setEmail] = useState("admin@example.com");
+  const [username, setUsername] = useState("AdminUser");
+  const [email, setEmail] = useState("Fineset@example.com");
   const [darkMode, setDarkMode] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [smsNotifications, setSmsNotifications] = useState(false);

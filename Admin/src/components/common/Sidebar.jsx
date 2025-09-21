@@ -8,7 +8,7 @@ function Sidebar({ setToken}) {
     <aside className="md:w-64 w-20 min-h-screen text-white/80  flex flex-col justify-around bg-black  border-r border-r-gray-50/50  items-center shadow-md p-5">
       <Link to="/" className="flex items-center space-x-2 text-3xl font-bold  ">
   <ActivityIcon className="w-9 h-9" />
-  <span className='hidden md:inline'>FinSet...</span>
+  <span className='hidden font-[font2] md:inline'>FineSet.</span>
 </Link>
       <nav className="space-y-4 ">
 <NavLink to="/dashboard" className="flex items-center space-x-2 px-4 text-xl font-[font2] py-2 rounded-lg transition-shadow shadow-md">

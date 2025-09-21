@@ -80,10 +80,10 @@ const Orders = ({token}) => {
     {orders.map((order, idx) => (
       <div
         key={idx}
-        className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_1fr] lg:grid-cols-[0.5fr_2fr_1fr_1fr_1fr] gap-4 p-4 md:p-6 border border-white/20 rounded-lg bg-white/5 items-start"
+        className="grid grid-cols-1 sm:grid-cols-[0.5fr_2fr_1fr] lg:grid-cols-[0.5fr_2fr_1fr_1fr_1fr] gap-4 p-4 md:p-6 border border-white/20 rounded-lg bg-white/5 items-center"
       >
         {/* Left Box / Placeholder */}
-        <Box className="text-white" />
+        <Box size={25} className="text-white" />
 
         {/* Order Items & Address */}
         <div className="space-y-2">

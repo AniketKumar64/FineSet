@@ -26,7 +26,7 @@ const Dashbord1 = () => {
       <div className="bg-[#171717] p-4 mb-4 rounded-lg shadow-md">
         
         <h2 className="text-xl font-semibold">Area Chart - Stacked</h2>
-        <p className="text-gray-400">Showing total visitors for the last 6 months</p>
+        <p className="text-gray-400">Showing total visitors for the last 30 days</p>
       
         </div>
         <Chart />
