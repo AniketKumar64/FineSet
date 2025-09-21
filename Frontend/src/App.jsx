@@ -12,6 +12,7 @@ import Shop from './Pages/Shop'
 import ProductDetail from './Pages/ProductDetail'
 import PlaceOrder from './Pages/PlaceOrder'
 import UserOrders from './Pages/UserOrders'
+import Verify from './Pages/Verify'
 
 
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/user-orders" element={<UserOrders />} />
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/verify" element={<Verify />} />
        <Route path="*" element={<div>404 Not Found</div>} />
 
 

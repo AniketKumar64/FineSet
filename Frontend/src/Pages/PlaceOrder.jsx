@@ -63,23 +63,44 @@ const PlaceOrder = () => {
         method,
       };
 
-      console.log("Order Data:", orderData);
 
-      if (method === "cod") {
-        const response = await axios.post(
-          backendUrl + "/api/v1/orders/place",
-          orderData,
-          { headers: { token } }
-        );
+      switch (method) {
+        case "cod":
+          const response = await axios.post(
+            backendUrl + "/api/v1/orders/place",
+            orderData,
+            { headers: { token } }
+          );
+          if (response.data.success) {
+            setCartItems({});
+            navigate("/orders");
+          } else {
+            toast.error(response.data.message);
+          }
+
+          break;
+
+        case "Stripe":
+          const stripeResponse = await axios.post(
+            backendUrl + "/api/v1/orders/place/stripe",
+            orderData,
+            { headers: { token } }
+          );
+          if (stripeResponse.data.success) {
+            const {session_url} = stripeResponse.data;
+            window.location.replace(session_url);
+          } else {
+            toast.error(stripeResponse.data.message);
+          }
+break;
+
+      
+
+      
 
 
 
-        if (response.data.success) {
-          setCartItems({});
-          navigate("/orders");
-        } else {
-          toast.error(response.data.message);
-        }
+     
       }
     } catch (error) {
       console.log("Error creating order:", error);
