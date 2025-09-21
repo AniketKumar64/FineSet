@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import FilterSidebar from "../components/Shop/FilterSidebar.jsx";
 import { Filter } from "lucide-react";
 import ProductCard from "../components/Shop/ProductCard.jsx";
-import { ShopContext } from "../context/ShopContext.jsx";
 
 import {
   Select,
@@ -13,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useLocation } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const Shop = () => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
