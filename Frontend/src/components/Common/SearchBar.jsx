@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { ShopContext } from "../../context/ShopContext";
 import { FaSearch } from "react-icons/fa";
 import { HiX } from "react-icons/hi";
 import { useLocation } from 'react-router-dom';
+import { ShopContext } from '../../context/ShopContext';
 
 const SearchBar = () => {
   const { search, setsearch, showSearch, setshowSearch } = useContext(ShopContext);
