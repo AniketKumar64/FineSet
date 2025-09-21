@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react"
-import { ShopContext } from "../context/ShopContext"
 import { Plus, Minus, Trash2 } from "lucide-react"
 import { Button } from "../components/ui/button"
 import { Truck, BadgeCheck } from "lucide-react";
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const Cart = () => {
   const {

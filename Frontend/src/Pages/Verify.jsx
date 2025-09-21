@@ -1,11 +1,11 @@
 import React from 'react'
 import { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext'
 import { useSearchParams } from 'react-router-dom';
 import { use } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { ShopContext } from '../context/ShopContext.jsx';
 
 const Verify = () => {
 

@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { ShopContext } from "../context/ShopContext";
+
 import { toast } from "sonner";
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const Login = () => {
   const [username, setusername] = useState("");

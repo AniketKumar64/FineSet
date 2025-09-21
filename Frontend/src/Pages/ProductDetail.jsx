@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ShopContext } from "../Context/ShopContext";
 import ProductDetailsTabs from "../components/ProductDetail/ProductDetailsTabs";
 import ProductMaindetail from "../components/ProductDetail/ProductMaindetail";
 import RelatedProduct from "../components/ProductDetail/RelatedProduct";
 import Footer from "../components/Common/Footer";
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const { products, currency, deliverytime, cartitems, addTOCart } =
-    useContext(ShopContext);
+  const { products, currency, deliverytime, cartitems, addTOCart } = useContext(ShopContext);
   const [productdata, setproductdata] = useState(false);
   const [image, setimage] = useState("");
   const [size, setsize] = useState("");

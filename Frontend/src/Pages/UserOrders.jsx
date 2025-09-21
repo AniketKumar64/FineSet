@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useContext } from 'react'
-import { ShopContext } from '../context/ShopContext';
 import axios from 'axios';
 import { toast, Toaster } from 'sonner';
+import { ShopContext } from '../context/ShopContext.jsx';
 
 // todo - show all orders of user and redesign the page
 

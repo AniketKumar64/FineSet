@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import { ShopContext } from "../context/ShopContext";
 import { toast } from "sonner";
 import axios from "axios";
 import { CreditCard, DollarSign, Smartphone, Wallet } from "lucide-react"
+import { ShopContext } from "../context/ShopContext.jsx";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
