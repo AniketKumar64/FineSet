@@ -1,22 +1,21 @@
-import React from "react";
-import { useContext } from "react";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
+import { toast } from "sonner";
+import axios from "axios";
 
 const PlaceOrder = () => {
-  const [method, setmethod] = useState("cod");
+  const [method, setMethod] = useState("cod");
   const {
     navigate,
     backendUrl,
     token,
-    cartItems,
+    cartitems,
     setCartItems,
-    getCartItems,
-    delivery_fee,
+    getCartAmount,
     products,
   } = useContext(ShopContext);
 
-  const [formData, setFormdata] = useState({
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
@@ -28,139 +27,198 @@ const PlaceOrder = () => {
     phone: "",
   });
 
-  //11:12
-
   const onChangeHandler = (e) => {
-  const name = e.target.name;
-  const value = e.target.value;
-  setFormdata(data => ({ ...data, [name]: value }));
+    const { name, value } = e.target;
+    setFormData((data) => ({ ...data, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       let orderItems = [];
-      for (const items in cartItems) {
-        for (const item in cartItems[items]) {
-          if (cartItems[items][item] > 0) {
+      for (const items in cartitems) {
+        for (const item in cartitems[items]) {
+          if (cartitems[items][item] > 0) {
             const itemInfo = structuredClone(
               products.find((product) => product._id === items)
+              
             );
             if (itemInfo) {
               itemInfo.size = item;
-              itemInfo.quantity = cartItems[items][item];
+              itemInfo.quantity = cartitems[items][item];
               orderItems.push(itemInfo);
+              console.log(items, products.find(product => product._id === items));
             }
           }
         }
       }
-      console.log(orderItems);
+      
+      console.log("Order Items:", orderItems);
+
       let orderData = {
         address: formData,
         items: orderItems,
-        amount: getcarta() + delivery_fee,
+        amount: getCartAmount(),
+        method,
       };
 
-      switch (method) {
-        case "cod":
-          const response = await axios.post(
-            backendUrl + "/api/v1/orders/place",
-            orderData,
-            { headers: { token } }
-          );
+      console.log("Order Data:", orderData);
 
-          if (response.data.success) {
-            setCartItems({});
-            navigate("/orders");
-          } else {
-            toast.error(response.data.message);
-          }
+      if (method === "cod") {
+        const response = await axios.post(
+          backendUrl + "/api/v1/orders/place",
+          orderData,
+          { headers: { token } }
+        );
 
-          break;
-
-        default:
+        if (response.data.success) {
+          setCartItems({});
+          navigate("/orders");
+        } else {
+          toast.error(response.data.message);
+        }
       }
     } catch (error) {
       console.log("Error creating order:", error);
     }
   };
 
-  return <div className="">
- <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row justify-around gap-4 pt-5 sm:pt-14  min-h-[80vh] border-t text-white px-6 md:px-16 py-10">
-      <div className="flex flex-col gap-4 w-full sm:max-w-[480px]">
-        <div className="text-xl sm:text-2xl my-3">
-            <h2 className="font-semibold">BILLING DETAILS</h2>
-          </div>
+  return (
+    <div className="min-h-screen bg-black text-white px-4 py-8 md:px-20">
+      <h1 className="text-3xl font-bold mb-6 text-center">Place Order</h1>
 
-          <div className="flex gap-3">
-            <input type="text" onChange={onChangeHandler} name='firstName' value={formData.firstName} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='First Name' />
-              <input type="text" onChange={onChangeHandler} name='lastName' value={formData.lastName} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='Last  Name' />
-          </div>
-          {/* street and email */}
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-3xl mx-auto bg-white/5 p-6 rounded-lg shadow-lg space-y-6"
+      >
+        <h2 className="text-xl font-semibold mb-4">Shipping Information</h2>
 
-           <input type="text" onChange={onChangeHandler} name='street' value={formData.street} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='Street Address' />
-              <input type="text" onChange={onChangeHandler} name='email' value={formData.email} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='Email Address' />
-
-              <div className="flex gap-3">
-                {/* city and state */}
-                <input type="text" onChange={onChangeHandler} name='city' value={formData.city} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='City' />
-                <input type="text" onChange={onChangeHandler} name='state' value={formData.state} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='State' />
-              </div>
-
-              <div className="flex gap-3">
-                {/* zipcode and country */}
-                <input type="text" onChange={onChangeHandler} name='zipcode' value={formData.zipcode} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='Zip Code' />
-                <input type="text" onChange={onChangeHandler} name='country' value={formData.country} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='Country' />
-              </div>
-
-              {/* phone number */}
-              <input type="text" onChange={onChangeHandler} name='phone' value={formData.phone} className='border border-gray-300 rounded py-1.5 px-3.5 w-full' placeholder='Phone Number' />
-        
+        {/* Name Fields */}
+        <div className="flex flex-col md:flex-row gap-4">
+          <input
+            name="firstName"
+            value={formData.firstName}
+            onChange={onChangeHandler}
+            placeholder="First Name"
+            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+          />
+          <input
+            name="lastName"
+            value={formData.lastName}
+            onChange={onChangeHandler}
+            placeholder="Last Name"
+            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+          />
         </div>
 
-      <div className="">
-        <div className="text-xl sm:text-2xl my-3">
-            <h2 className="font-semibold">YOUR ORDER</h2>
-          </div>
-          </div>
+        <input
+          name="email"
+          value={formData.email}
+          onChange={onChangeHandler}
+          placeholder="Email"
+          type="email"
+          className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+          required
+        />
 
+        <input
+          name="phone"
+          value={formData.phone}
+          onChange={onChangeHandler}
+          placeholder="Phone"
+          type="tel"
+          className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+          required
+        />
 
-          <div className="mt-12">
-        <div className="w-full border-t border-b py-4">
-          <div className="flex justify-between mb-3 font-semibold">
-            <p>PRODUCT</p>
-            <p>TOTAL</p>
-          </div>
-          <div className="flex gap-3 flex-col md:flex-col lg:flex-row">
-            <div onClick={() => { setmethod("cod") }} className="flex items-center  border p-2 px-3 cursor-pointer ">
-              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'cod' ? 'bg-black' : 'bg-white'}`}></p>
-              <span className='h-5 mx-4 fle items-center justify-center text-center'
-              >cash on delivery</span>
-            </div>
+        <input
+          name="street"
+          value={formData.street}
+          onChange={onChangeHandler}
+          placeholder="Street Address"
+          className="w-full px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+          required
+        />
 
-            <div onClick={() => { setmethod("razorpay") }} className="flex items-center gap-3 border p-2 px-3 cursor-pointer ">
-              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'razorpay' ? 'bg-black' : 'bg-white'}`}></p>
-              <img className='h-5 mx-4' src="#" alt="" />
-            </div>
-            <div onClick={() => setmethod('stripe')} className="flex items-center gap-3 border p-2 px-3 cursor-pointer ">
-              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === 'stripe' ? 'bg-black' : 'bg-white'}`}></p>
-              <img className='h-5 mx-4' src="#" alt="" />
-            </div>
-          </div>
-          <div className="w-full text-end mt-8">
-  <button type='submit' onClick={()=>navigate('/orders')}
-    className="flex-1 px-6 py-3 border border-white text-white font-semibold rounded-lg hover:bg-white hover:text-black transition">
-    Place Order
-  </button>
-</div>
+        <div className="flex flex-col md:flex-row gap-4">
+          <input
+            name="city"
+            value={formData.city}
+            onChange={onChangeHandler}
+            placeholder="City"
+            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+          />
+          <input
+            name="state"
+            value={formData.state}
+            onChange={onChangeHandler}
+            placeholder="State"
+            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+          />
         </div>
-      </div>
 
+        <div className="flex flex-col md:flex-row gap-4">
+          <input
+            name="zipcode"
+            value={formData.zipcode}
+            onChange={onChangeHandler}
+            placeholder="Zip Code"
+            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+          />
+          <input
+            name="country"
+            value={formData.country}
+            onChange={onChangeHandler}
+            placeholder="Country"
+            className="flex-1 px-4 py-2 rounded border border-white/20 bg-black/10 focus:outline-none focus:ring-2 focus:ring-white/50"
+            required
+          />
+        </div>
 
+        {/* Payment Method */}
+        <div className="mt-4">
+          <h2 className="text-xl font-semibold mb-2">Payment Method</h2>
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="method"
+                value="cod"
+                checked={method === "cod"}
+                onChange={() => setMethod("cod")}
+                className="accent-white"
+              />
+              Cash on Delivery
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="method"
+                value="online"
+                checked={method === "online"}
+                onChange={() => setMethod("online")}
+                className="accent-white"
+              />
+              Online Payment
+            </label>
+          </div>
+        </div>
 
-    </form>
-
-  </div>;
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full mt-6 px-6 py-3 rounded-lg bg-white text-black font-semibold hover:bg-black hover:text-white transition"
+        >
+          Place Order
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default PlaceOrder;
