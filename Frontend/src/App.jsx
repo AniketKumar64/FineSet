@@ -11,6 +11,7 @@ import SearchBar from './components/Common/SearchBar'
 import Shop from './Pages/Shop'
 import ProductDetail from './Pages/ProductDetail'
 import PlaceOrder from './Pages/PlaceOrder'
+import UserOrders from './Pages/UserOrders'
 
 
 
@@ -34,6 +35,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/user-orders" element={<UserOrders />} />
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
        <Route path="*" element={<div>404 Not Found</div>} />
