@@ -6,7 +6,7 @@ import {
   HiMenu,
   HiX,
 } from "react-icons/hi";
-import { ShopContext } from "../../context/ShopContext";
+
 import MobileMenu from "./MobileMenu";
 import { LogOutIcon, Search, User } from "lucide-react";
 
@@ -18,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ShopContext } from "../../context/ShopContext.jsx";
 
 const Navbar = () => {
   const [mobileview, setmobileview] = useState(false);
