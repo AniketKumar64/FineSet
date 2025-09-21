@@ -77,7 +77,7 @@ const Products = ({token}) => {
           filteredList.map((item, index) => <ProCards key={index} product={item} />)
         ) : (
           <div className="col-span-full text-center text-gray-400 py-10">
-            No products found...
+            Loading...
           </div>
         )}
       </div>
