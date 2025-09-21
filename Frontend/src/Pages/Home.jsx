@@ -1,13 +1,8 @@
 import React from 'react'
 
-
-
 const Home = () => {
   return (
-    <div className=" ">
-      
-      <div className="h-screen"></div>
-    </div>
+    <div>Home</div>
   )
 }
 
