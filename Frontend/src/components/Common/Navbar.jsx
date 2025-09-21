@@ -18,7 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ShopContext } from "../../context/ShopContext";
+import { ShopContext } from "../../context/ShopContext.jsx";
 
 const Navbar = () => {
   const [mobileview, setmobileview] = useState(false);
