@@ -1,7 +1,5 @@
 import React from 'react'
 import { Minus } from 'lucide-react'
-import { useContext } from 'react'
-import { ShopContext } from '../../context/ShopContext'
 
 const CartTotal = ({ originalPrice, discountedPrice, currency }) => {
 
