@@ -3,7 +3,6 @@ import axios from "axios";
 
 import { toast } from "sonner";
 import { ShopContext } from "../context/ShopContext.jsx";
-
 const Login = () => {
   const [username, setusername] = useState("");
   const [email, setEmail] = useState("");
