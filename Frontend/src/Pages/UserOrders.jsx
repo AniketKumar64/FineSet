@@ -50,7 +50,7 @@ const UserOrders = () => {
     {orders.length === 0 ? (
         <p>You have no orders yet.</p>
     ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {orders.map((order, index) => (
                 <div key={index} className="border max-w-7xl mx-auto p-4 rounded-lg bg-white/5">
                     <div className="flex justify-between items-center mb-2">

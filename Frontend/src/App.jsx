@@ -1,6 +1,6 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
+import Home from './Pages/Home'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import OrderSuccess from './pages/OrderSuccess'
@@ -13,7 +13,10 @@ import ProductDetail from './Pages/ProductDetail'
 import PlaceOrder from './Pages/PlaceOrder'
 import UserOrders from './Pages/UserOrders'
 import Verify from './Pages/Verify'
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+gsap.registerPlugin(ScrollTrigger);
 
 
 
@@ -40,7 +43,7 @@ function App() {
         <Route path="/account" element={<Account />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify" element={<Verify />} />
-       <Route path="*" element={<div>404 Not Found</div>} />
+       <Route path="*" element={<div className='flex font-[font1] justify-center items-center h-screen text-4xl '>404 Not Found</div>} />
 
 
         

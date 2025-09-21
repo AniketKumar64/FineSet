@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { ShopContext } from "../context/ShopContext"
 import { Plus, Minus, Trash2 } from "lucide-react"
 import { Button } from "../components/ui/button"
-import CartTotal from "../components/Cart/CartTotal"
+import { Truck, BadgeCheck } from "lucide-react";
 
 const Cart = () => {
   const {
@@ -178,44 +178,36 @@ const Cart = () => {
                  </span>
                </div>
          
-               <div className="flex justify-between mb-2 text-gray-300">
+               {/* <div className="flex justify-between mb-2 text-gray-300">
                  <span>Discount:</span>
                  <span className=" flex items-center gap-1">
                    <Minus size={16} />
                    {originalPrice - discountedPrice}
                  </span>
                </div>
-         
+          */}
                <div className="flex justify-between mb-2 text-gray-300">
                  <span>Shipping:</span>
                  <span>
                    {discountedPrice > 500 ? "Free" : `${currency} 50`}
                  </span>
                </div>
+               {/* shipping free and no extra charges */}
+               
          
-               <div className="flex justify-between mb-2 text-gray-300">
-                 <span>Tax:</span>
-                 <span>
-                   {currency}
-                   {Math.round(0.01 * discountedPrice)}
-                 </span>
-               </div>
-         
-               <div className="flex justify-between mb-2 text-gray-300">
-                 <span>Discounted Price:</span>
-                 <span>
-                   {currency}
-                   {discountedPrice}
-                 </span>
-               </div>
+               <div className="w-full my-10 bg-black text-white py-4 px-6 flex items-center justify-center gap-3 rounded-lg shadow-md">
+      <Truck className="w-5 h-5 text-green-400" />
+      <span className="text-sm md:text-base font-medium">
+        Free Shipping & No Extra Charges
+      </span>
+      <BadgeCheck className="w-5 h-5 text-green-400" />
+    </div>
          
                <div className="flex justify-between font-bold text-lg border-t border-white/20 pt-3">
                  <span>Total:</span>
                  <span>
                    {currency}
-                   {discountedPrice > 500
-                     ? discountedPrice + Math.round(0.01 * discountedPrice)
-                     : discountedPrice + 50 + Math.round(0.01 * discountedPrice)}
+                  {originalPrice }
                  </span>
                </div>
          

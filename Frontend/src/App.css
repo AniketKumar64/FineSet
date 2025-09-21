@@ -1,0 +1,374 @@
+/* <section
+        className="relative bg-gray-50 py-20"
+        style={{
+          backgroundImage: `url('https://readdy.ai/api/search-image?query=modern%20professional%20man%20wearing%20brown%20terracotta%20jacket%20business%20casual%20outfit%20confident%20pose%20clean%20minimal%20background%20studio%20lighting%20high%20quality%20fashion%20photography&width=1440&height=600&seq=hero1&orientation=landscape')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-white bg-opacity-80"></div>
+        <div className="relative px-8">
+          <div className="grid grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h2 className="text-5xl font-bold text-black leading-tight">
+                Layer Up For Success
+                <br />
+                With Every Meeting
+              </h2>
+              <p className="text-lg text-gray-600">
+                Elevate your professional wardrobe with our premium collection
+                of jackets and blazers designed for the modern gentleman.
+              </p>
+              <button className="bg-black text-white px-8 py-3 !rounded-button whitespace-nowrap cursor-pointer hover:bg-gray-800 transition-colors">
+                VIEW COLLECTION
+              </button>
+            </div>
+            <div></div>
+          </div>
+        </div>
+      </section>
+     
+      <section className="bg-white py-8 border-b border-gray-100">
+        <div className="px-8">
+          <div className="grid grid-cols-4 gap-8">
+            <div className="flex items-center space-x-3">
+              <i className="fas fa-shield-alt text-2xl text-gray-700"></i>
+              <div>
+                <h4 className="font-semibold text-black">Safe Transaction</h4>
+                <p className="text-sm text-gray-600">Secure checkout process</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <i className="fas fa-truck text-2xl text-gray-700"></i>
+              <div>
+                <h4 className="font-semibold text-black">Secure Delivery</h4>
+                <p className="text-sm text-gray-600">
+                  Fast and reliable shipping
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <i className="fas fa-headset text-2xl text-gray-700"></i>
+              <div>
+                <h4 className="font-semibold text-black">Exclusive Help</h4>
+                <p className="text-sm text-gray-600">24/7 customer support</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <i className="fas fa-tag text-2xl text-gray-700"></i>
+              <div>
+                <h4 className="font-semibold text-black">Affordable Price</h4>
+                <p className="text-sm text-gray-600">Best value for money</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="bg-white py-16">
+        <div className="px-8">
+          <div className="text-center mb-12">
+            <h3 className="text-4xl font-bold text-black mb-4">
+              Timeless & Classic Trends
+            </h3>
+            <div className="flex justify-center space-x-8 mb-8">
+              <button className="text-black font-semibold border-b-2 border-black pb-2 cursor-pointer">
+                Casual Wear
+              </button>
+              <button className="text-gray-500 hover:text-black pb-2 cursor-pointer">
+                Loungewear
+              </button>
+              <button className="text-gray-500 hover:text-black pb-2 cursor-pointer">
+                Active Wear
+              </button>
+            </div>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Discover our curated collection of premium menswear designed for
+              the modern professional.
+            </p>
+          </div>
+          <div className="grid grid-cols-4 gap-8">
+            {products.map((product, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              >
+                <div className="aspect-[4/5] overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4">
+                  <h4 className="font-semibold text-black mb-2">
+                    {product.name}
+                  </h4>
+                  <div className="flex items-center space-x-1 mb-2">
+                    {[...Array(product.rating)].map((_, i) => (
+                      <i
+                        key={i}
+                        className="fas fa-star text-yellow-400 text-sm"
+                      ></i>
+                    ))}
+                  </div>
+                  <p className="text-lg font-bold text-black">
+                    {product.price}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="bg-gray-50 py-16">
+        <div className="px-8">
+          <div className="grid grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h3 className="text-4xl font-bold text-black">
+                Act Fast! Incredible
+                <br />
+                Offers Expire Soon
+              </h3>
+              <p className="text-gray-600">
+                Don't miss out on our exclusive deals. Limited time offers on
+                premium menswear collection.
+              </p>
+              <div className="flex space-x-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-black">
+                    {timeLeft.days}
+                  </div>
+                  <div className="text-sm text-gray-600">DAYS</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-black">
+                    {timeLeft.hours.toString().padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-gray-600">HOURS</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-black">
+                    {timeLeft.minutes.toString().padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-gray-600">MINUTES</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-black">
+                    {timeLeft.seconds.toString().padStart(2, "0")}
+                  </div>
+                  <div className="text-sm text-gray-600">SECONDS</div>
+                </div>
+              </div>
+              <button className="bg-black text-white px-8 py-3 !rounded-button whitespace-nowrap cursor-pointer hover:bg-gray-800 transition-colors">
+                VIEW COLLECTION
+              </button>
+            </div>
+            <div className="aspect-[4/5] overflow-hidden rounded-lg">
+              <img
+                src="https://readdy.ai/api/search-image?query=confident%20professional%20man%20wearing%20elegant%20gray%20suit%20jacket%20modern%20pose%20studio%20lighting%20clean%20background%20high%20quality%20fashion%20photography%20menswear%20style&width=500&height=600&seq=promo1&orientation=portrait"
+                alt="Promotional"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-16">
+        <div className="px-8">
+          <h3 className="text-3xl font-bold text-black text-center mb-12">
+            Browse Our Collections
+          </h3>
+          <div className="grid grid-cols-4 gap-6">
+            {collections.map((collection, index) => (
+              <a
+                href="https://readdy.ai/home/62f07e71-1e2d-4095-b33c-4c0c8cd96f87/4e471691-d1d0-4fb1-9474-1defddb89fc9"
+                data-readdy="true"
+                key={index}
+                className="relative overflow-hidden rounded-lg cursor-pointer group block"
+              >
+                <div className="aspect-[4/5] overflow-hidden">
+                  <img
+                    src={collection.image}
+                    alt={collection.name}
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end">
+                  <div className="p-4">
+                    <h4 className="text-white font-semibold">
+                      {collection.name}
+                    </h4>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+      
+      <section className="bg-gray-50 py-16">
+        <div className="px-8">
+          <h3 className="text-3xl font-bold text-black text-center mb-12">
+            What Customers Say
+          </h3>
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="flex justify-center mb-6">
+              <img
+                src={testimonials[currentTestimonial].avatar}
+                alt={testimonials[currentTestimonial].name}
+                className="w-16 h-16 rounded-full object-cover"
+              />
+            </div>
+            <blockquote className="text-xl text-gray-700 mb-4">
+              "{testimonials[currentTestimonial].text}"
+            </blockquote>
+            <cite className="text-gray-600 font-semibold">
+              - {testimonials[currentTestimonial].name}
+            </cite>
+            <div className="flex justify-center space-x-2 mt-6">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentTestimonial(index)}
+                  className={`w-3 h-3 rounded-full cursor-pointer ${
+                    index === currentTestimonial ? "bg-black" : "bg-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-black py-16">
+        <div className="px-8 text-center">
+          <h3 className="text-3xl font-bold text-white mb-4">
+            Join Our Newsletter For Access To Exclusive Offers Today
+          </h3>
+          <p className="text-gray-300 mb-8">
+            Stay updated with our latest collections and special promotions
+          </p>
+          <div className="max-w-md mx-auto flex">
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="flex-1 px-4 py-3 border-none text-sm focus:outline-none"
+            />
+            <button className="bg-white text-black px-6 py-3 !rounded-button whitespace-nowrap cursor-pointer hover:bg-gray-100 transition-colors">
+              Subscribe
+            </button>
+          </div>
+        </div>
+      </section>
+    
+      <footer className="bg-white border-t border-gray-200 py-12">
+        <div className="px-8">
+          <div className="grid grid-cols-5 gap-8">
+            <div>
+              <h4 className="font-bold text-black mb-4">Kushi.</h4>
+              <p className="text-gray-600 text-sm mb-4">
+                Premium menswear for the modern professional. Quality
+                craftsmanship meets contemporary style.
+              </p>
+              <div className="flex space-x-4">
+                <i className="fab fa-facebook text-gray-600 cursor-pointer hover:text-black"></i>
+                <i className="fab fa-twitter text-gray-600 cursor-pointer hover:text-black"></i>
+                <i className="fab fa-instagram text-gray-600 cursor-pointer hover:text-black"></i>
+                <i className="fab fa-linkedin text-gray-600 cursor-pointer hover:text-black"></i>
+              </div>
+            </div>
+            <div>
+              <h5 className="font-semibold text-black mb-4">Shop</h5>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    New Arrivals
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Jackets
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Shirts
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Accessories
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold text-black mb-4">Support</h5>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Size Guide
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Returns
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold text-black mb-4">Company</h5>
+              <ul className="space-y-2 text-sm text-gray-600">
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Careers
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Press
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-black cursor-pointer">
+                    Blog
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h5 className="font-semibold text-black mb-4">Payment Methods</h5>
+              <div className="flex space-x-4">
+                <i className="fab fa-cc-visa text-2xl text-gray-600"></i>
+                <i className="fab fa-cc-mastercard text-2xl text-gray-600"></i>
+                <i className="fab fa-cc-paypal text-2xl text-gray-600"></i>
+                <i className="fab fa-cc-apple-pay text-2xl text-gray-600"></i>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-gray-200 mt-8 pt-8 text-center">
+            <p className="text-sm text-gray-600">
+              © 2025 Kushi. All rights reserved. | Privacy Policy | Terms of
+              Service
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div> */

@@ -28,9 +28,9 @@ const ProductCard = ({ product }) => {
       </div>
 
      
-<div className="absolute bottom-3 left-3 right-3 
+<div className="absolute hidden md:flex bottom-3 left-3 right-3 
         bg-black/70 backdrop-blur-xl border border-white/30 
-        rounded-xl px-4 py-3 flex items-center justify-between
+        rounded-xl px-4 py-3  items-center justify-between
         opacity-0 translate-y-6 group-hover:opacity-100 group-hover:translate-y-0
         transition-all duration-500 shadow-lg">
         <div>

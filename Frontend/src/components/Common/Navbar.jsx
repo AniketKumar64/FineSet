@@ -47,7 +47,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className=" fixed top-0 z-10 w-full border-b border-border/40 black backdrop-blur supports-[backdrop-filter]:bg-background/5">
+    <nav className=" fixed top-0 z-10 w-full  border-b border-border/40 black backdrop-blur supports-[backdrop-filter]:bg-background/5">
       <div className="max-w-7xl mx-auto gap-12 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex gap-2 items-center">
@@ -109,7 +109,7 @@ const Navbar = () => {
                 <DropdownMenuItem>
                   <Link to="/profile">Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/orders") } >Orders</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/user-orders") } >Orders</DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
                 <DropdownMenuItem onClick={logoutHandler}>
                   Log Out <LogOutIcon className="ml-2 h-4 w-4" />

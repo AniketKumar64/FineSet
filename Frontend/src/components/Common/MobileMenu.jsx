@@ -71,15 +71,15 @@ function MobileMenu({ mobileview, setmobileview }) {
         <X size={24} /> <p className="font-[font4]">Back</p>
       </div>
 
-      <div className="flex text-right z-11   justify-center  flex-col">
-        {["/", "/products", "/about", "/contact", "/career", "/faq", "/terms",].map(
+      <div className="flex text-right z-11    justify-center  flex-col">
+        {["/", "/products", "/about", "/contact", "/career", "/faq",,].map(
           (path, idx) => (
             <NavLink
               key={idx}
               onClick={() => setmobileview(false)}
               to={path}
               className={({ isActive }) =>
-                `py-5 pl-6 border-b border-b-gray-50/10 md:text-5xl text-6xl font-[font4] cursor-pointer ${
+                `py-5 pl-6 font-[font1] border-b border-b-gray-50/10 md:text-5xl text-6xl  cursor-pointer ${
                   isActive ? " text-black/80 bg-white/80  font-semibold" : "text-white pr-4 hover:text-black transition-all ease-in duration-300 hover:bg-gray-100/50"
                 }`
               }
