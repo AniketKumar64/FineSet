@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home'
-import Cart from './pages/Cart'
+
 import Checkout from './pages/Checkout'
 import OrderSuccess from './pages/OrderSuccess'
 import Account from './pages/Account'
@@ -15,6 +15,7 @@ import UserOrders from './Pages/UserOrders'
 import Verify from './Pages/Verify'
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Cart from './Pages/Cart'
 
 gsap.registerPlugin(ScrollTrigger);
 
