@@ -1,12 +1,23 @@
 import React from 'react'
 import heroImage from '../../../public/hero.jpg';
 import { useNavigate } from 'react-router-dom';
+import gsap from 'gsap/all';
+import { useGSAP } from '@gsap/react';
+
 
 const Hero = () => {
   const navigate = useNavigate();
+  useGSAP(() => {
+ 
+ 
+  }, []);
+
+
+
+
   return (
     <section
-        className="relative bg-gray-50 py-20"
+        className=".home-section relative bg-gray-50 py-20"
         style={{
           backgroundImage: `url(${heroImage})`,
           backgroundSize: "cover",
@@ -22,7 +33,7 @@ const Hero = () => {
                 <br />
                 With Every Meeting
               </h2>
-              <p className="text-lg text-white max-w-md">
+              <p className="text text-lg text-white max-w-md">
                 Elevate your professional wardrobe with our premium collection
                 of jackets and blazers designed for the modern gentleman.
               </p>

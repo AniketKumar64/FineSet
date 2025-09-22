@@ -6,12 +6,7 @@ import EcommerceShowcase from '../components/Home/EcommerceShowcase';
 import Footer from '../components/Common/Footer';
 
 const Home = () => {
-const [timeLeft, setTimeLeft] = useState({
-    days: 210,
-    hours: 3,
-    minutes: 43,
-    seconds: 43,
-  });
+
   const testimonials = [
     {
       name: "Alice Johnson",
@@ -26,19 +21,10 @@ const [timeLeft, setTimeLeft] = useState({
   ];
 
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => ({
-        ...prev,
-        seconds: prev.seconds > 0 ? prev.seconds - 1 : 59,
-      }));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
 
 
-  
+
   return (
     <div>
       <Hero/>

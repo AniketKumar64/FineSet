@@ -67,7 +67,7 @@ const EcommerceShowcase = () => {
         <div ref={textRef} className="flex flex-col gap-6">
          <div className=" ">
              <p className="uppercase text-sm text-gray-600 mb-2">
-            Since 2020
+            Since 2025
           </p>
           <h2 className="text-3xl font-extrabold text-gray-900 mb-6">
             Shop the Style You Love
