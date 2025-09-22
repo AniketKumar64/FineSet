@@ -99,8 +99,8 @@ const Navbar = () => {
 
 
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center ">
-                <User onClick={()=>token ? null : navigate("/login")} size={20} />
+              <DropdownMenuTrigger onClick={()=>token ? null : navigate("/login")}  className="flex cursor-pointer items-center ">
+                <User size={20} />
                 <p>{token ? "Profile" : "Login"}</p>
               </DropdownMenuTrigger>
              {
@@ -125,7 +125,7 @@ const Navbar = () => {
             {/* Dropdown Menu */}
 
             <DropdownMenu>
-              <DropdownMenuTrigger className="hidden md:flex items-center gap-2">
+              <DropdownMenuTrigger className="hidden md:flex cursor-pointer items-center gap-2">
                 <HiDotsVertical size={20} />
               </DropdownMenuTrigger>
               <DropdownMenuContent>

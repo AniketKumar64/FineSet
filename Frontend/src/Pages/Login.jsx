@@ -52,8 +52,16 @@ const Login = () => {
   }, [token]);
 
   return (
-    <div className="min-h-screen flex flex-col gap-4 items-center justify-center bg-black/50 px-4">
-      <div className="flex flex-col items-center justify-center">
+    <div className="min-h-screen relative flex flex-col gap-4 items-center justify-center bg-black/50 px-4">
+      <div className="flex  flex-col items-center justify-center">
+              <div className="absolute top-4 right-4">
+          <button
+            onClick={() => navigate("/")}
+            className="px-4 py-2 rounded font-bold bg-white text-black  flex focus:outline-none"
+          >
+            Back to Home
+          </button>
+        </div>
         <h1 className="text-4xl uppercase font-serif font-bold">{CurrState}</h1>
         <p className="mt-2 text-lg tracking-widest text-gray-500">
           Welcome to the Fineset
@@ -119,7 +127,7 @@ const Login = () => {
           <div className="">
             <button
               type="submit"
-              className="flex-1 w-full px-6 py-3 bg-white/80 text-black font-semibold rounded-lg hover:bg-white transition"
+              className="flex-1 w-full px-6 py-3 cursor-pointer bg-white/80 text-black font-semibold rounded-lg hover:bg-white transition"
             >
               {CurrState}
             </button>
@@ -132,7 +140,7 @@ const Login = () => {
               Already have an account?{" "}
               <button
                 type="button"
-                className="text-white font-semibold"
+                className="text-white cursor-pointer font-semibold"
                 onClick={() => setCurrState("login")}
               >
                 Login
@@ -143,7 +151,7 @@ const Login = () => {
               Don't have an account?{" "}
               <button
                 type="button"
-                className="text-white font-semibold"
+                className="text-white cursor-pointer font-semibold"
                 onClick={() => setCurrState("Sign Up")}
               >
                 Sign Up
@@ -151,6 +159,7 @@ const Login = () => {
             </span>
           )}
         </p>
+  
       </div>
     </div>
   );
