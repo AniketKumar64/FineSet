@@ -9,7 +9,7 @@ import ShopContextProvider from './context/ShopContext.jsx'
 createRoot(document.getElementById('root')).render(
 <BrowserRouter>
   <ShopContextProvider>
-<Toaster position="bottom-right" richColors />    <App />
+<Toaster position="bottom-right"  />    <App />
   </ShopContextProvider>
 </BrowserRouter>
 )

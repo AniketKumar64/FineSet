@@ -129,6 +129,8 @@ const ShopContextProvider = (props) => {
                 }
             }
             catch(err){
+                console.log(err);
+                toast.error("Error: " + err.message);
 
             }
         }

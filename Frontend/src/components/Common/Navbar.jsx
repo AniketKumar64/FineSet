@@ -60,9 +60,9 @@ const Navbar = () => {
             </button>
             <NavLink
               to="/"
-              className="text-xl   md:text-2xl  font-[font1] "
+              className="text-xl   md:text-2xl  font-[font4] text-white"
             >
-              Fineset{" "}
+              <h1>Fineset</h1>
             </NavLink>
 
             
@@ -101,7 +101,7 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center ">
                 <User onClick={()=>token ? null : navigate("/login")} size={20} />
-                <p>Profile</p>
+                <p>{token ? "Profile" : "Login"}</p>
               </DropdownMenuTrigger>
              {
               token ? ( <DropdownMenuContent>
@@ -131,8 +131,7 @@ const Navbar = () => {
               <DropdownMenuContent>
                 <DropdownMenuItem>Notification Preferences</DropdownMenuItem>
                 <DropdownMenuItem>24x7 Customer Care</DropdownMenuItem>
-                <DropdownMenuItem>Advertise</DropdownMenuItem>
-                <DropdownMenuItem>Download App</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/login")}>Login</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

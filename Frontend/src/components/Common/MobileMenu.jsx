@@ -100,8 +100,8 @@ function MobileMenu({ mobileview, setmobileview }) {
           onClick={() => setmobileview(false)}
         >
           <p className="text-2xl font-bold font-[font4]">Contact Us</p>
-          <p className="text-lg text-gray-500">info@example.com</p>
-          <p className="text-lg text-gray-500">+1 234 567 890</p>
+          <p className="text-lg text-gray-500">info@Fineset.com</p>
+          <p className="text-lg text-gray-500">+91 8088915077</p>
         </div>
 
      

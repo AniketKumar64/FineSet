@@ -54,7 +54,6 @@ const PlaceOrder = () => {
         }
       }
       
-      console.log("Order Items:", orderItems);
 
       let orderData = {
         address: formData,
@@ -75,7 +74,7 @@ const PlaceOrder = () => {
             setCartItems({});
             navigate("/orders");
           } else {
-            toast.error(response.data.message);
+            toast.error("please login to continue");
           }
 
           break;
@@ -90,7 +89,8 @@ const PlaceOrder = () => {
             const {session_url} = stripeResponse.data;
             window.location.replace(session_url);
           } else {
-            toast.error(stripeResponse.data.message);
+
+            toast.error("please login to continue");
           }
 break;
 

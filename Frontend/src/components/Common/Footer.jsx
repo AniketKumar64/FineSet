@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 py-12">
         <div className="px-8">
-          <div className="grid grid-cols-5 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             <div>
               <h4 className="font-bold text-black mb-4">Fineset.</h4>
               <p className="text-gray-600 text-sm mb-4">
@@ -95,7 +95,7 @@ const Footer = () => {
             </div>
             <div>
               <h5 className="font-semibold text-black mb-4">Payment Methods</h5>
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 ">
                 <i className="fab fa-cc-visa text-2xl text-gray-600"></i>
                 <i className="fab fa-cc-mastercard text-2xl text-gray-600"></i>
                 <i className="fab fa-cc-paypal text-2xl text-gray-600"></i>
