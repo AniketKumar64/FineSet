@@ -27,7 +27,7 @@ app.use('/api/v1/cart', CartRouter);
 app.use('/api/v1/orders', OrderRouter);
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the Home Page');
+    res.send('Welcome to the Home Page of E-Commerce API');
 });
 
 
