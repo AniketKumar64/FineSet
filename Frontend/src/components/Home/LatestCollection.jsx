@@ -1,147 +1,199 @@
-import React, { useRef } from 'react'
-import { useContext, useEffect, useState } from "react";
+import React, { useRef, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../../context/ShopContext";
-import ProductCard from '../Shop/ProductCard';
+import ProductCard from "../Shop/ProductCard";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const LatestCollection = () => {
-        const {products, currency, deliveryCharge } = useContext(ShopContext);
-    const [latestProducts, setlatestProducts] = useState([]);
-      const [category, setCategory] = useState("All");
+  const { products, currency, deliveryCharge } = useContext(ShopContext);
+  const [latestProducts, setLatestProducts] = useState([]);
+  const [category, setCategory] = useState("All");
+const cardsRef = useRef([]);
 
-   const toggleCategory = (e) => {
-    const cat = e.currentTarget.getAttribute("data-value");
-    setCategory(cat); // ✅ just set selected category
-  };
-
-
-  const categories = [
-    "All",
-    "Clothing",
-    
-    "Electronics",
-    
-    "Accessories",
-  ];
-
-//   animation 
-const sectionRef = useRef(null);
+  const sectionRef = useRef(null);
   const headingRef = useRef(null);
-  const buttonsRef = useRef([]);
-  const productsRef = useRef([]);
+  const tabsRef = useRef([]);
+  const gridRef = useRef(null);
+
+  const categories = ["All", "Clothing", "Electronics", "Accessories"];
+
+  useEffect(() => {
+    const sorted = [...products].sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+    setLatestProducts(sorted.slice(0, 3));
+
+  }, [products]);
+
+  const filteredProducts =
+    category === "All"
+      ? latestProducts
+      : latestProducts.filter((p) => p.category === category);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Heading animation
-      gsap.from(headingRef.current, {
-        y: -50,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
-
-      // Category buttons animation (stagger)
-      gsap.from(buttonsRef.current, {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: "power3.out",
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 75%",
         },
       });
 
-      // Product cards animation (scale + fade)
-      gsap.from(productsRef.current, {
-        scale: 0.9,
+      tl.from(headingRef.current, {
+        y: 30,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-        },
-      });
+        duration: 1,
+        ease: "power3.out",
+      })
+        .from(
+          tabsRef.current,
+          {
+            opacity: 0,
+            y: 10,
+            stagger: 0.1,
+            duration: 0.6,
+            ease: "power2.out",
+          },
+          "-=0.4"
+        )
+        .from(
+          gridRef.current,
+          {
+            opacity: 0,
+            y: 20,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          "-=0.3"
+        );
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
+useEffect(() => {
+  if (!cardsRef.current.length) return;
+
+  const [left, center, right] = cardsRef.current;
+
+  // Reset state (important for repeat)
+  gsap.set([left, right], {
+    opacity: 0,
+    y: 30,
+    scale: 0.96,
+  });
+
+  gsap.set(center, {
+    opacity: 0,
+    y: 30,
+    scale: 0.86, // 👈 smaller initially
+  });
+
+  const tl = gsap.timeline({ paused: true });
+
+  // 1️⃣ Center card (hero)
+  tl.to(center, {
+    opacity: 1,
+    y: 0,
+    scale: 1.1, // 👈 slightly larger
+    duration: 1.5,
+    ease: "power3.out",
+  })
+
+  // 2️⃣ Side cards (supporting)
+  .to(
+    [left, right],
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 1.1,
+      ease: "power3.out",
+      stagger: 0.15,
+    },
+    "-=0.6"
+  );
+
+  ScrollTrigger.create({
+    trigger: gridRef.current,
+    start: "top 75%",
+    end: "bottom 60%",
+    onEnter: () => tl.restart(),
+    onEnterBack: () => tl.restart(),
+  });
+
+  return () => {
+    tl.kill();
+    ScrollTrigger.getAll().forEach(st => st.kill());
+  };
+}, [filteredProducts]);
 
 
-    useEffect(()=>{
-        const sortedProducts = [...products].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setlatestProducts(
-  [...sortedProducts].sort(() => Math.random() - 0.1).slice(0, 4)
-);
-
-    }, [products])
-
-      const filteredProducts =
-    category === "All"
-      ? latestProducts
-      : latestProducts.filter((p) => p.category === category);
-
-  
   return (
-    <section ref={sectionRef} className="bg-black py-16">
-      <div className="px-8">
-        {/* Heading */}
-        <div className="flex items-center flex-col justify-center">
-          <h2 ref={headingRef} className="text-5xl font-bold text-white mb-8">
-            Latest Collection
-          </h2>
-          <p className="text-gray-400 text-center mb-12 max-w-2xl mx-auto">
-            Discover the freshest additions to our menswear lineup. From
-            contemporary styles to timeless classics, our latest collection has
-            something for every occasion.</p>
+    <section
+      ref={sectionRef}
+      className="bg-black py-28 px-6 md:px-16"
+    >
+      {/* Header */}
+      <div className="max-w-7xl mx-auto mb-16">
+        <h2
+          ref={headingRef}
+          className="text-4xl md:text-6xl font-semibold text-[#F5F1E6] mb-6"
+        >
+          Latest Collection
+        </h2>
 
-          {/* Category Buttons */}
-          <div className="grid md:grid-cols-4 grid-cols-2 gap-4 space-x-4 mb-8">
-            {categories.map((cat, i) => (
-              <button
-                key={cat}
-                ref={(el) => (buttonsRef.current[i] = el)}
-                data-value={cat}
-                onClick={toggleCategory}
-                className={`px-4 py-2 rounded-full border ${
-                  category === cat
-                    ? "bg-white text-black border-white"
-                    : "text-white border-gray-500 hover:bg-white hover:text-black transition-colors"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Product Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {filteredProducts.map((product, idx) => (
-            <div
-              key={idx}
-              ref={(el) => (productsRef.current[idx] = el)}
-              className="p-4 rounded-lg hover:shadow-lg transition-shadow"
-            >
-              <ProductCard
-                product={product}
-                currency={currency}
-                deliveryCharge={deliveryCharge}
-              />
-            </div>
-          ))}
-        </div>
+        <p className="text-gray-400 max-w-xl text-lg">
+          A curated selection of our newest designs — crafted with precision,
+          refined for everyday elegance.
+        </p>
       </div>
-    </section>
-   
-  )
-}
 
-export default LatestCollection
+      {/* Category Tabs */}
+      <div className="flex justify-center gap-4 mb-16 flex-wrap">
+        {categories.map((cat, i) => (
+          <button
+            key={cat}
+            ref={(el) => (tabsRef.current[i] = el)}
+            onClick={() => setCategory(cat)}
+            className={`
+              px-6 py-2 rounded-full text-sm tracking-wide
+              border transition-all duration-300
+              ${
+                category === cat
+                  ? "border-[#D4AF37] text-[#D4AF37]"
+                  : "border-white/20 text-white/60 hover:text-white"
+              }
+            `}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Products */}
+<div
+  ref={gridRef}
+  className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-14"
+>
+  {filteredProducts.map((product, idx) => (
+    <div
+      key={product._id}
+      ref={(el) => (cardsRef.current[idx] = el)}
+    >
+      <ProductCard
+        product={product}
+        currency={currency}
+        deliveryCharge={deliveryCharge}
+      />
+    </div>
+  ))}
+</div>
+
+    </section>
+  );
+};
+
+export default LatestCollection;

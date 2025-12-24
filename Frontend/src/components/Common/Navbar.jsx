@@ -48,21 +48,23 @@ const Navbar = () => {
   
 
   return (
-    <nav className=" fixed top-0 z-10 w-full  border-b border-border/40 bg-black/70 backdrop-blur-md">
+    <nav className=" fixed top-0 z-10 w-full   bg-black/70 backdrop-blur-md">
+       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[2px]
+                bg-gradient-to-r from-transparent via-[#ff0000] to-transparent opacity-40" />
       <div className="max-w-7xl mx-auto gap-12 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-1 items-center">
             <button
               onClick={() => setmobileview(!mobileview)}
-              className="text-white font-bold  flex focus:outline-none"
+              className="text-white font-bold   flex items-center focus:outline-none"
             >
-              {mobileview ? <HiX size={24} /> : <HiMenu size={24} />}
+              {mobileview ? <HiX size={24} /> : <HiMenu size={26} />}
             </button>
             <NavLink
               to="/"
-              className="text-xl   md:text-2xl  font-[font4] text-white"
+              className={` text-xl   md:text-3xl  font-bold text-white `}
             >
-              <h1>Fineset</h1>
+              <h1 className=" logo"><span className="bg-gradient-to-r from-[#680000] via-[#F5E6A1] to-[#B8860B] bg-clip-text text-transparent">F</span>ineset</h1>
             </NavLink>
 
             
@@ -125,7 +127,7 @@ const Navbar = () => {
             {/* Dropdown Menu */}
 
             <DropdownMenu>
-              <DropdownMenuTrigger className="hidden md:flex cursor-pointer items-center gap-2">
+              <DropdownMenuTrigger className="hidden bg-black text-white md:flex cursor-pointer items-center gap-2">
                 <HiDotsVertical size={20} />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
