@@ -2,65 +2,79 @@
 import React, { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { Mail, Github, Twitter, Linkedin } from 'lucide-react';
+import { Mail, Instagram, Twitter, Linkedin } from 'lucide-react';
 
 const Contact = () => {
+    const containerRef = useRef(null);
     const marqueeRef = useRef(null);
 
     useGSAP(() => {
-        const marquee = marqueeRef.current;
-
-        gsap.to(marquee, {
+        // Infinite Seamless Marquee
+        gsap.to(marqueeRef.current, {
             xPercent: -50,
             repeat: -1,
-            duration: 20,
+            duration: 30,
             ease: "linear",
         });
-    }, { scope: marqueeRef });
+
+        // Entrance animation for content
+        gsap.from(".contact-reveal", {
+            y: 40,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".contact-reveal",
+                start: "top 90%",
+            }
+        });
+    }, { scope: containerRef });
 
     return (
-        <section className="bg-zinc-950 text-white py-20 flex flex-col items-center justify-center min-h-[50vh] overflow-hidden">
+        <section ref={containerRef} className="relative bg-[#050505] py-32 flex flex-col items-center justify-center overflow-hidden border-t border-white/5">
+            
+            {/* Background Aesthetic Glow */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60%] h-[300px] bg-[#D4AF37]/5 blur-[120px] rounded-full pointer-events-none"></div>
 
-            {/* Marquee Section */}
-            <div className="w-full overflow-hidden mb-16 opacity-50">
-                <div ref={marqueeRef} className="flex whitespace-nowrap">
-            <h1 className="text-[10vw] font-bold uppercase mr-10">
-  Crafted Timepieces —
-</h1>
-<h1 className="text-[10vw] text-[#D4AF37] font-bold uppercase mr-10">
-  Crafted Timepieces —
-</h1>
-  </div>
+            
+
+            {/* Main Contact Content */}
+            <div className="relative z-10 text-center px-8">
+                <div className="contact-reveal overflow-hidden mb-4">
+                    <span className="text-[#D4AF37] text-[10px] tracking-[0.6em] uppercase">Private Inquiry</span>
+                </div>
+                
+                <h2 className="contact-reveal text-5xl md:text-7xl font-heading font-semibold mb-8 text-white tracking-tighter">
+                    Contact Our <span className="italic font-light text-zinc-400">Concierge</span>
+                </h2>
+
+                <p className="contact-reveal text-zinc-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-12 font-light">
+                    Our master horologists and service team are available for bespoke consultations and collection inquiries.
+                </p>
+
+                <div className="contact-reveal">
+                    <a
+                        href="mailto:hello@fineset.com"
+                        className="group relative inline-block text-3xl md:text-5xl font-light text-white transition-all duration-500 hover:text-[#D4AF37]"
+                    >
+                        hello@FineSet.com
+                        <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4AF37] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-right"></span>
+                    </a>
+                </div>
+
+                {/* Social Links Row */}
+                <div className="contact-reveal flex items-center justify-center gap-6 mt-20">
+                    <SocialLink href="#" icon={<Instagram size={20} />} label="Instagram" />
+                    <SocialLink href="#" icon={<Twitter size={20} />} label="Twitter" />
+                    <SocialLink href="#" icon={<Linkedin size={20} />} label="LinkedIn" />
+                </div>
             </div>
 
-      <div className="text-center mb-14 px-8">
-  <h2 className="text-4xl md:text-6xl font-semibold mb-6 text-[#F5F1E6]">
-    Contact Our Concierge
-  </h2>
-
-  <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-    Whether you have questions about our collections, craftsmanship, or
-    bespoke services, our team is here to assist you with precision and care.
-  </p>
-</div>
-
-<a
-  href="mailto:hello@yourbrand.com"
-  className="
-    text-2xl md:text-4xl font-medium
-    text-[#F5F1E6]
-    hover:text-[#D4AF37]
-    transition-colors duration-300
-    mb-20
-  "
->
-  hello@FineSet.com
-</a>
-
-
-         
-
-        
+            {/* Custom CSS for the Outline Text in Marquee */}
+            <style jsx>{`
+                
+            `}</style>
         </section>
     );
 };
@@ -70,7 +84,6 @@ const SocialLink = ({ href, icon, label }) => {
 
     useGSAP(() => {
         const element = ref.current;
-
         const handleMouseMove = (e) => {
             const { clientX, clientY } = e;
             const { left, top, width, height } = element.getBoundingClientRect();
@@ -78,8 +91,8 @@ const SocialLink = ({ href, icon, label }) => {
             const y = clientY - (top + height / 2);
 
             gsap.to(element, {
-                x: x * 0.3,
-                y: y * 0.3,
+                x: x * 0.4,
+                y: y * 0.4,
                 duration: 0.3,
                 ease: "power2.out"
             });
@@ -87,16 +100,14 @@ const SocialLink = ({ href, icon, label }) => {
 
         const handleMouseLeave = () => {
             gsap.to(element, {
-                x: 0,
-                y: 0,
-                duration: 0.5,
+                x: 0, y: 0,
+                duration: 0.6,
                 ease: "elastic.out(1, 0.3)"
             });
         };
 
         element.addEventListener('mousemove', handleMouseMove);
         element.addEventListener('mouseleave', handleMouseLeave);
-
         return () => {
             element.removeEventListener('mousemove', handleMouseMove);
             element.removeEventListener('mouseleave', handleMouseLeave);
@@ -104,22 +115,14 @@ const SocialLink = ({ href, icon, label }) => {
     }, { scope: ref });
 
     return (
-   <a
-  ref={ref}
-  href={href}
-  className="
-    p-4 rounded-full
-    bg-zinc-900
-    text-[#F5F1E6]
-    hover:bg-[#D4AF37]
-    hover:text-black
-    transition-colors duration-300
-    inline-block
-  "
-  aria-label={label}
->
-  {icon}
-</a>
+        <a
+            ref={ref}
+            href={href}
+            className="w-14 h-14 flex items-center justify-center rounded-full bg-zinc-900 border border-white/5 text-zinc-400 hover:bg-[#D4AF37] hover:text-black transition-colors duration-500"
+            aria-label={label}
+        >
+            {icon}
+        </a>
     );
 };
 

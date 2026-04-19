@@ -1,8 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+"use client";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import axios from "axios";
-
 import { toast } from "sonner";
 import { ShopContext } from "../context/ShopContext.jsx";
+import { ArrowLeft, User, Mail, Lock } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+
 const Login = () => {
   const [username, setusername] = useState("");
   const [email, setEmail] = useState("");
@@ -10,38 +14,37 @@ const Login = () => {
   const [CurrState, setCurrState] = useState("login"); // "login" or "Sign Up"
 
   const { token, settoken, navigate, backendUrl } = useContext(ShopContext);
+  const formRef = useRef(null);
+
+  useGSAP(() => {
+    gsap.from(formRef.current, {
+      y: 30,
+      opacity: 0,
+      duration: 1.2,
+      ease: "power3.out",
+    });
+  }, []);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     try {
-      if (CurrState === "Sign Up") {
-        const response = await axios.post(backendUrl + "/api/v1/register", {
-          username,
-          email,
-          password,
-        });
-        if (response.data.success) {
-          settoken(response.data.token);
-          localStorage.setItem('token', response.data.token);
-        } else {
-          toast.error(response.data.message);
-        }
+      const endpoint = CurrState === "Sign Up" ? "/api/v1/register" : "/api/v1/login";
+      const payload = CurrState === "Sign Up" 
+        ? { username, email, password } 
+        : { email, password };
+
+      const response = await axios.post(backendUrl + endpoint, payload);
+      
+      if (response.data.success) {
+        settoken(response.data.token);
+        localStorage.setItem('token', response.data.token);
+        toast.success(`Welcome ${CurrState === "Sign Up" ? "to the House" : "Back"}`);
       } else {
-        const response = await axios.post(backendUrl + "/api/v1/login", {
-          email,
-          password,
-        });
-        console.log(response);
-        if (response.data.success) {
-          settoken(response.data.token);
-          localStorage.setItem('token', response.data.token);
-        } else {
-          toast.error(response.data.message);
-        }
+        toast.error(response.data.message);
       }
     } catch (err) {
       console.log(err);
-      toast.error("Something went wrong");
+      toast.error("Authentication failed. Please check your credentials.");
     }
   };
 
@@ -52,114 +55,97 @@ const Login = () => {
   }, [token]);
 
   return (
-    <div className="min-h-screen relative flex flex-col gap-4 items-center justify-center bg-black/50 px-4">
-      <div className="flex  flex-col items-center justify-center">
-              <div className="absolute top-4 right-4">
-          <button
-            onClick={() => navigate("/")}
-            className="px-4 py-2 rounded font-bold bg-white text-black  flex focus:outline-none"
-          >
-            Back to Home
-          </button>
-        </div>
-        <h1 className="text-4xl uppercase font-serif font-bold">{CurrState}</h1>
-        <p className="mt-2 text-lg tracking-widest text-gray-500">
-          Welcome to the Fineset
-        </p>
+    <div className="min-h-screen relative flex items-center justify-center bg-[#050505] overflow-hidden">
+      
+      {/* Background Cinematic Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#D4AF37]/10 blur-[120px] rounded-full"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full"></div>
       </div>
-      <div className="bg-black/30   border border-gray-100/50 shadow-lg p-8 rounded-2xl w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-white/80 mb-6">
-          {CurrState === "login"
-            ? "Login to Your Account"
-            : "Create a New Account"}
-        </h2>
 
-        <form onSubmit={onSubmitHandler} className="space-y-4">
-          {CurrState === "login" ? (
-            ""
-          ) : (
-            <div>
-              <label className="block text-lg font-medium text-white mb-1">
-                UserName
-              </label>
+      {/* Back to Home Link */}
+      <button
+        onClick={() => navigate("/")}
+        className="absolute top-10 left-10 z-20 flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-zinc-500 hover:text-[#D4AF37] transition-colors duration-300"
+      >
+        <ArrowLeft size={14} /> Back to Boutique
+      </button>
+
+      {/* Auth Card */}
+      <div ref={formRef} className="relative z-10 w-full max-w-md px-8 py-12 bg-white/[0.02] border border-white/5 backdrop-blur-3xl rounded-none shadow-2xl">
+        
+        <div className="text-center mb-10">
+          <span className="text-[#D4AF37] text-[10px] tracking-[0.5em] uppercase block mb-4">
+            {CurrState === "login" ? "Access Inquiry" : "Membership Request"}
+          </span>
+          <h1 className="text-4xl font-heading font-bold text-white tracking-tighter uppercase">
+            {CurrState === "login" ? "Sign In" : "Join Us"}
+          </h1>
+        </div>
+
+        <form onSubmit={onSubmitHandler} className="space-y-8">
+          {CurrState === "Sign Up" && (
+            <div className="relative group">
+              <User className="absolute left-0 bottom-3 text-zinc-600 group-focus-within:text-[#D4AF37] transition-colors" size={18} />
               <input
                 onChange={(e) => setusername(e.target.value)}
                 value={username}
                 type="text"
-                name="username"
                 required
-                className="w-full px-4 py-2 border-b outline-0  border-b-gray-300  "
-                placeholder="Enter your name"
+                className="w-full pl-8 py-2 bg-transparent border-b border-white/10 outline-none text-white text-sm tracking-widest focus:border-[#D4AF37] transition-all"
+                placeholder="USERNAME"
               />
             </div>
           )}
 
-          <div>
-            <label className="block text-lg font-medium outline-0 text-gray-300 mb-1">
-              Email
-            </label>
+          <div className="relative group">
+            <Mail className="absolute left-0 bottom-3 text-zinc-600 group-focus-within:text-[#D4AF37] transition-colors" size={18} />
             <input
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               type="email"
-              name="email"
               required
-              className="w-full px-4 py-2 border-b outline-0 border-b-gray-300  "
-              placeholder="Enter your email"
+              className="w-full pl-8 py-2 bg-transparent border-b border-white/10 outline-none text-white text-sm tracking-widest focus:border-[#D4AF37] transition-all"
+              placeholder="EMAIL ADDRESS"
             />
           </div>
 
-          <div>
-            <label className="block text-lg font-medium text-gray-300 mb-1">
-              Password
-            </label>
+          <div className="relative group">
+            <Lock className="absolute left-0 bottom-3 text-zinc-600 group-focus-within:text-[#D4AF37] transition-colors" size={18} />
             <input
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               type="password"
-              name="password"
               required
-              className="w-full px-4 py-2 border-b outline-0 border-b-gray-300  "
-              placeholder="Enter your password"
+              className="w-full pl-8 py-2 bg-transparent border-b border-white/10 outline-none text-white text-sm tracking-widest focus:border-[#D4AF37] transition-all"
+              placeholder="SECRET KEY"
             />
           </div>
 
-          <div className="">
-            <button
-              type="submit"
-              className="flex-1 w-full px-6 py-3 cursor-pointer bg-white/80 text-black font-semibold rounded-lg hover:bg-white transition"
-            >
-              {CurrState}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-4 bg-white text-black text-[10px] font-bold tracking-[0.4em] uppercase hover:bg-[#D4AF37] hover:text-white transition-all duration-500 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+          >
+            {CurrState}
+          </button>
         </form>
 
-        <p className="text-center text-lg text-gray-400 mt-6">
-          {CurrState === "Sign Up" ? (
-            <span>
-              Already have an account?{" "}
-              <button
-                type="button"
-                className="text-white cursor-pointer font-semibold"
-                onClick={() => setCurrState("login")}
-              >
-                Login
-              </button>
-            </span>
-          ) : (
-            <span>
-              Don't have an account?{" "}
-              <button
-                type="button"
-                className="text-white cursor-pointer font-semibold"
-                onClick={() => setCurrState("Sign Up")}
-              >
-                Sign Up
-              </button>
-            </span>
-          )}
-        </p>
-  
+        <div className="mt-10 text-center">
+          <button
+            type="button"
+            className="text-[10px] tracking-[0.3em] uppercase text-zinc-500 hover:text-white transition-colors"
+            onClick={() => setCurrState(CurrState === "login" ? "Sign Up" : "login")}
+          >
+            {CurrState === "login" 
+              ? "Create New Account — Join" 
+              : "Already a Member? — Sign In"}
+          </button>
+        </div>
+      </div>
+
+      {/* Aesthetic Brand Text */}
+      <div className="absolute bottom-10 right-10 opacity-5 pointer-events-none select-none">
+        <h2 className="text-[10vw] font-bold tracking-tighter text-white">FINESET</h2>
       </div>
     </div>
   );

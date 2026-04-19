@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import FilterSidebar from "../components/Shop/FilterSidebar.jsx";
-import { Filter } from "lucide-react";
+import { Filter, SlidersHorizontal } from "lucide-react";
 import ProductCard from "../components/Shop/ProductCard.jsx";
+import Footer from "../components/Common/Footer"; // Ensure Footer is imported
 
 import {
   Select,
@@ -11,49 +12,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useLocation } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext.jsx";
 
 const Shop = () => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-
-  const { products, search, showSearch } = useContext(ShopContext);
-  const [ShowFilter, setShowFilter] = useState(false);
+  const { products, search } = useContext(ShopContext);
   const [filteredProducts, setfilteredProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subcategory, setSubcategory] = useState([]);
   const [sortType, setSortType] = useState("relevant");
-  const location = useLocation();
-
-  console.log(location);
 
   const toggleCategory = (e) => {
-    const value = e.target.value.toLowerCase(); // normalize
-    if (category.includes(value)) {
-      setCategory((prev) => prev.filter((item) => item !== value));
-    } else {
-      setCategory((prev) => [...prev, value]);
-    }
+    const value = e.target.value.toLowerCase();
+    setCategory((prev) => 
+      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+    );
   };
 
   const toggleSubcategory = (e) => {
-    const value = e.target.value.toLowerCase(); // normalize
-    if (subcategory.includes(value)) {
-      setSubcategory((prev) => prev.filter((item) => item !== value));
-    } else {
-      setSubcategory((prev) => [...prev, value]);
-    }
+    const value = e.target.value.toLowerCase();
+    setSubcategory((prev) => 
+      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+    );
   };
 
   const applyFilter = () => {
     let productsCopy = [...products];
 
-    // 🔎 Search
     if (search.trim()) {
       productsCopy = productsCopy.filter((item) =>
         item.name.toLowerCase().includes(search.toLowerCase()) ||
-        item.category.toLowerCase().includes(search.toLowerCase()) ||
-        item.subCategory.toLowerCase().includes(search.toLowerCase())
+        item.category.toLowerCase().includes(search.toLowerCase())
       );
     }
 
@@ -63,196 +52,112 @@ const Shop = () => {
       );
     }
 
-    // 📂 Subcategory Filter
     if (subcategory.length > 0) {
       productsCopy = productsCopy.filter((item) =>
-        subcategory.includes(item.subCategory.toLowerCase())
+        subcategory.includes(item.subCategory?.toLowerCase() || item.subcategory?.toLowerCase())
       );
     }
 
     setfilteredProducts(productsCopy);
   };
 
-  const onClose = () => {
-    setMobileFilterOpen(false);
-  };
-
   const sortProducts = () => {
-    const fpCopy = filteredProducts.slice();
-
-    switch (sortType) {
-      case "1":
-        setfilteredProducts(fpCopy.sort((a, b) => a.price - b.price));
-        break;
-      case "2":
-        setfilteredProducts(fpCopy.sort((a, b) => b.price - a.price));
-        break;
-      default:
-        applyFilter();
-        break;
-    }
+    let fpCopy = [...filteredProducts];
+    if (sortType === "1") fpCopy.sort((a, b) => a.price - b.price);
+    else if (sortType === "2") fpCopy.sort((a, b) => b.price - a.price);
+    setfilteredProducts(fpCopy);
   };
 
-  useEffect(() => {
-    setfilteredProducts(products);
-  }, []);
-
-  useEffect(() => {
-    applyFilter();
-  }, [search, category, subcategory, products]);
-
-  useEffect(() => {
-    sortProducts();
-  }, [sortType]);
-
-  console.log("filteredProducts", filteredProducts);
+  useEffect(() => { setfilteredProducts(products); }, [products]);
+  useEffect(() => { applyFilter(); }, [search, category, subcategory, products]);
+  useEffect(() => { sortProducts(); }, [sortType]);
 
   return (
- 
-      <div className=" min-h-screen text-white    flex">
-     
+    <div className="bg-[#050505] min-h-screen text-white pt-24">
+      <div className="flex max-w-[1440px] mx-auto relative">
+        
+        {/* DESKTOP FILTER SIDEBAR */}
+        <aside className="hidden lg:block w-80 sticky top-24 h-[calc(100vh-120px)] overflow-y-auto pr-8 pl-6 border-r border-white/5 scrollbar-hide">
+          <FilterSidebar 
+            toggleCategory={toggleCategory} 
+            toggleSubcategory={toggleSubcategory} 
+          />
+        </aside>
 
-
-       <aside className="hidden md:block w-72 bg-[#171717] p-6 fixed top-16 left-0 h-screen overflow-y-auto">
-        <div className="p-4 space-y-4">
-          <h3 className="text-xl font-[font1] f mb-4">Filters</h3>
-
-          {/* Category Filter */}
-          <div>
-            <p className="mb-2 font-medium font-serif text-xl text-gray-50">Categories</p>
-            <div className="flex  gap-1 flex-col  md:gap-2 md:overflow-visible">
-              {[
-                "Men",
-                "Women",
-                "Kids",
-                "Electronics",
-                "Clothing",
-                "Accessories",
-              ].map((cat, idx) => (
-                <label
-                  key={idx}
-                  className="flex items-center gap-2 px-2 py-1 bg-gray-100 rounded-md shrink-0 md:bg-transparent md:rounded-none"
-                >
-                  <input
-                    value={cat}
-                    onChange={toggleCategory}
-                    type="checkbox"
-                    className="form-checkbox h-4 w-4 accent-gray-300"
-                  />
-                  <span>{cat}</span>
-                </label>
-              ))}
+        {/* MAIN SHOP CONTENT */}
+        <main className="flex-1 px-6 md:px-12 pb-20">
+          
+          {/* EDITORIAL HEADER */}
+          <div className="mb-16">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-[1px] bg-[#D4AF37]"></div>
+              <span className="text-[#D4AF37] text-[10px] tracking-[0.5em] uppercase">The Anthology</span>
             </div>
+            <h1 className="text-5xl md:text-7xl font-heading font-bold tracking-tighter mb-6">
+              ALL <span className="text-zinc-600 italic font-light">PIECES</span>
+            </h1>
+            <p className="max-w-2xl text-zinc-500 text-sm md:text-base leading-relaxed font-light">
+              Explore a curated selection where heritage craftsmanship meets contemporary precision. 
+              Each item is a testament to the Fineset standard of mechanical elegance.
+            </p>
           </div>
 
-          {/* todo: Price Filter */}
-       
+          {/* CONTROLS BAR */}
+          <div className="flex items-center justify-between mb-12 border-b border-white/5 pb-8">
+            <button
+              onClick={() => setMobileFilterOpen(true)}
+              className="lg:hidden flex items-center gap-3 bg-white/5 px-5 py-3 border border-white/10 text-[10px] tracking-widest uppercase hover:bg-white hover:text-black transition-all"
+            >
+              <SlidersHorizontal size={14} />
+              Filters
+            </button>
 
-          {/* Sizes */}
-          <div>
-            <p className="mb-2 font-medium font-serif text-xl text-gray-50 ">Subcategories</p>
-            <div className="flex  text-gray-300 gap-1 flex-col md:gap-2 md:overflow-visible">
-              {[
-                "Topwear",
-                "Bottomwear",
-                "Winter",
-                "Summer",
-                "Footwear",
-                "Gadgets",
-              ].map((sub) => (
-                <label
-                  key={sub}
-                  className="flex items-center gap-2 px-2 py-1 bg-gray-100 rounded-md shrink-0 md:bg-transparent md:rounded-none"
-                >
-                  <input
-                    value={sub}
-                    onChange={toggleSubcategory}
-                    type="checkbox"
-                    className="form-checkbox h-4 w-4 accent-gray-300 scale-105"
-                  />
-                  <span>{sub}</span>
-                </label>
-              ))}
+            <div className="hidden lg:flex items-center gap-2 text-zinc-500">
+              <span className="text-[10px] tracking-widest uppercase">Showing {filteredProducts.length} Results</span>
             </div>
+
+            <Select onValueChange={(value) => setSortType(value)}>
+              <SelectTrigger className="w-[200px] bg-transparent border-white/10 text-[10px] tracking-widest uppercase focus:ring-[#D4AF37] h-12 rounded-none">
+                <SelectValue placeholder="SORT BY" />
+              </SelectTrigger>
+              <SelectContent className="bg-zinc-950 text-white border-white/10 rounded-none">
+                <SelectItem value="relevant" className="text-[10px] tracking-widest uppercase">Relevant</SelectItem>
+                <SelectItem value="1" className="text-[10px] tracking-widest uppercase">Price: Low to High</SelectItem>
+                <SelectItem value="2" className="text-[10px] tracking-widest uppercase">Price: High to Low</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          {onClose && (
-           <Button
-            className="w-full mt-4 bg-red-600 text-white py-2 rounded-lg"
-            onClick={onClose}
-          >
-            Close
-          </Button>
-        )}
+          {/* PRODUCT GALLERY GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-10 gap-y-16">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product, idx) => (
+                <ProductCard key={product._id + idx} product={product} />
+              ))
+            ) : (
+              <div className="col-span-full py-40 text-center">
+                <p className="text-zinc-600 tracking-[0.3em] uppercase text-xs">No pieces found in this classification</p>
+              </div>
+            )}
+          </div>
+        </main>
       </div>
-      </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 p-6 ml-0 md:ml-72 top-16 overflow-y-auto h-screen">
-        <div className=" flex flex-col justify-between gap-2 w-full mb-4">
-          <h2 className="text-4xl  font-extrabold font-[font1] tracking-wide mb-2">
-              All Products
-            </h2>
-            <p className="text-lg md:text-lg hidden md:flex text-white/50 font-[font2] font-semibold ">
-              Discover the latest trends and unbeatable deals! Shop top brands, exclusive collections, and must-have gadgets. Elevate your style and upgrade your tech—your one-stop shop for everything awesome. Limited time offers, fast delivery, and premium quality guaranteed!
-            </p>        </div>
-        <div className="flex md:flex-row-reverse items-center py-6 justify-between gap-4 w-full md:max-w-full">
-          <button
-            onClick={() => setMobileFilterOpen(true)}
-            className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg md:hidden"
-          >
-            <Filter className="w-5 h-5" />
-            Filters
-          </button>
-          {/* Sort Dropdown */}
-          <Select onValueChange={(value) => setSortType(value)}>
-            <SelectTrigger className="w-[180px] bg-black font-[font2] text-white">
-              <SelectValue placeholder="Sort by" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="relevant">Relevant</SelectItem>
-              <SelectItem value="1">Low → High</SelectItem>
-              <SelectItem value="2">High → Low</SelectItem>
-            </SelectContent>
-          </Select>
-
-          {/* Filter Button (only mobile) */}
-        </div>
-        {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-          {filteredProducts.map((product, idx) => (
-            <ProductCard key={idx} product={product} />
-          ))}
-          {filteredProducts.map((product, idx) => (
-            <ProductCard key={idx} product={product} />
-          ))}
-          {filteredProducts.map((product, idx) => (
-            <ProductCard key={idx} product={product} />
-          ))}
-          {filteredProducts.map((product, idx) => (
-            <ProductCard key={idx} product={product} />
-          ))}
-        </div>
-      </main>
-
-
-
-
-      {/* Mobile Filter Overlay */}
+      {/* MOBILE FILTER OVERLAY */}
       {mobileFilterOpen && (
-        <div className="fixed inset-0 bg-black/90 z-50 overflow-y-auto">
-          <div className="max-w-md mx-auto mt-10 bg-[#171717] rounded-lg p-6">
+        <div className="fixed inset-0 bg-black/95 z-[100] animate-in fade-in duration-500 overflow-y-auto">
+          <div className="min-h-screen">
             <FilterSidebar
               toggleCategory={toggleCategory}
               toggleSubcategory={toggleSubcategory}
-              onClose={onClose}
+              onClose={() => setMobileFilterOpen(false)}
             />
           </div>
         </div>
       )}
+
+      <Footer />
     </div>
-  
-    
   );
 };
 

@@ -137,17 +137,16 @@ useEffect(() => {
       className="bg-black py-28 px-6 md:px-16"
     >
       {/* Header */}
-      <div className="max-w-7xl mx-auto mb-16">
+      <div className="max-w-7xl mx-auto mb-16 text-center">
         <h2
           ref={headingRef}
-          className="text-4xl md:text-6xl font-semibold text-[#F5F1E6] mb-6"
+          className="text-5xl md:text-7xl font-playfair font-normal tracking-tight text-white mb-6 drop-shadow-md"
         >
-          Latest Collection
+          Signature <span className="italic text-[#D4AF37]">Series</span>
         </h2>
 
-        <p className="text-gray-400 max-w-xl text-lg">
-          A curated selection of our newest designs — crafted with precision,
-          refined for everyday elegance.
+        <p className="text-white/50 max-w-2xl mx-auto text-lg font-[font3] tracking-wide leading-relaxed">
+          A definitive curation of our finest releases. Each model is engineered for perfection and refined for undeniable elegance.
         </p>
       </div>
 
@@ -159,12 +158,12 @@ useEffect(() => {
             ref={(el) => (tabsRef.current[i] = el)}
             onClick={() => setCategory(cat)}
             className={`
-              px-6 py-2 rounded-full text-sm tracking-wide
-              border transition-all duration-300
+              px-8 py-2.5 rounded-none text-xs font-[font3] tracking-[0.2em] uppercase
+              border transition-all duration-500
               ${
                 category === cat
-                  ? "border-[#D4AF37] text-[#D4AF37]"
-                  : "border-white/20 text-white/60 hover:text-white"
+                  ? "border-[#D4AF37] bg-[#D4AF37]/10 text-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.2)]"
+                  : "border-white/10 bg-transparent text-white/40 hover:border-white/30 hover:text-white"
               }
             `}
           >

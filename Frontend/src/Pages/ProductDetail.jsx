@@ -5,173 +5,182 @@ import ProductMaindetail from "../components/ProductDetail/ProductMaindetail";
 import RelatedProduct from "../components/ProductDetail/RelatedProduct";
 import Footer from "../components/Common/Footer";
 import { ShopContext } from "../context/ShopContext.jsx";
+import { ShieldCheck, Truck, RefreshCw } from "lucide-react";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-  const { products, currency, deliverytime, cartitems, addTOCart } = useContext(ShopContext);
-  const [productdata, setproductdata] = useState(false);
+  const { products, currency, addTOCart } = useContext(ShopContext);
+  const [productdata, setproductdata] = useState(null);
   const [image, setimage] = useState("");
   const [size, setsize] = useState("");
   const navigate = useNavigate();
 
   const discountPercentage = 20;
-  const price = productdata.price;
-
-  const originalPrice = Math.round(price * (1 + discountPercentage / 100));
 
   const fetchProductsData = async () => {
-    products.map((item) => {
-      if (item._id == productId) {
-        setproductdata(item);
-        setimage(item.images[0]);
-        return null;
-      }
-    });
+    const foundProduct = products.find((item) => item._id === productId);
+    if (foundProduct) {
+      setproductdata(foundProduct);
+      setimage(foundProduct.images[0]);
+    }
   };
 
   useEffect(() => {
     fetchProductsData();
+    window.scrollTo(0, 0);
   }, [productId, products]);
 
-  console.log(productdata);
+  if (!productdata) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#050505]">
+        <div className="w-10 h-10 border-2 border-[#D4AF37] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
-  return productdata ? (
-    <div className=" pt-10  md:px-8   min-h-screen">
-      <div className=" max-w-7xl mx-auto  p-6  grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* left side product images */}
-        <div className=" items-center flex flex-col md:flex-row gap-4">
-          <div className=" h-full  hidden md:flex items-center justify-center flex-col gap-4">
-            {productdata.images.map((img, index) => (
+  const originalPrice = Math.round(productdata.price * (1 + discountPercentage / 100));
+
+  return (
+    <div className="bg-[#050505] text-white min-h-screen pt-24">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+          
+          {/* LEFT SIDE: IMAGE GALLERY */}
+          <div className="flex flex-col-reverse md:flex-row gap-6">
+            {/* Thumbnails */}
+            <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-y-visible pb-4 md:pb-0 scrollbar-hide">
+              {productdata.images.map((img, index) => (
+                <div
+                  key={index}
+                  onClick={() => setimage(img)}
+                  className={`relative w-20 h-20 md:w-24 md:h-24 flex-shrink-0 cursor-pointer overflow-hidden border transition-all duration-500 ${
+                    image === img ? "border-[#D4AF37]" : "border-white/10 opacity-50 hover:opacity-100"
+                  }`}
+                >
+                  <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+
+            {/* Main Display */}
+            <div className="flex-1 relative aspect-[4/5] bg-white/[0.02] border border-white/5 overflow-hidden group">
               <img
-                key={index}
-                src={img}
-                alt={`${productdata.name}-${index}`}
-                className={`w-24 h-24 object-cover rounded-lg cursor-pointer border-2 transition-all duration-200 
-      ${
-        image === img
-          ? " transition-all ease-in duration-200 border-white border-"
-          : "opacity-100 border-transparent hover:border-gray-100"
-      }`}
-                onClick={() => setimage(img)}
+                src={image}
+                alt={productdata.name}
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
               />
-            ))}
-          </div>
-          <div className="w-full max-w-md h-[500px] flex items-center justify-center bg-white/5 rounded-xl overflow-hidden">
-            <img
-              src={image}
-              alt={productdata.name}
-              className="h-full w-full object-cover"
-            />
-          </div>
-
-          {/* mobile view */}
-          <div className=" md:hidden items-center justify-center flex-wrap  flex gap-1">
-            {productdata.images.map((img, index) => (
-              <img
-                key={index}
-                src={img}
-                alt={`${productdata.name}-${index}`}
-                className=" w-16 h-20 object-cover rounded-lg cursor-pointer border-2 border-transparent hover:border-gray-500"
-                onClick={() => setimage(img)}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* right side product details */}
-        <div className=" flex flex-col gap-4">
-          <span className="capitalize text-xl text-white/50 font-semibold">
-            {productdata.category}
-          </span>
-          <h2 className=" text-3xl font-bold font-[font1]">
-            {productdata.name}
-          </h2>
-          <div className=" mt-5 flex items-center gap-2">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl font-[font1] font-semibold">
-                {currency} {price}
-              </span>
-
-              <span className="text-gray-500 line-through">
-                {currency} {originalPrice}
-              </span>
-
-              <span className="text-red-600 text-xs font-semibold uppercase px-2 py-1 border border-red-600 rounded-full tracking-wide">
-                {discountPercentage}% OFF
-              </span>
+              <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md px-3 py-1 border border-white/10">
+                <span className="text-[10px] tracking-[0.2em] uppercase">Ref. {productdata._id.slice(-6)}</span>
+              </div>
             </div>
           </div>
 
-          <div className="mb-6">
-            <p className="text-md font-[font2] mb-2">Available Sizes</p>
+          {/* RIGHT SIDE: PRODUCT DETAILS */}
+          <div className="flex flex-col">
+            <div className="mb-8">
+              <span className="text-[#D4AF37] text-[10px] tracking-[0.5em] uppercase font-bold mb-4 block">
+                {productdata.category} / {productdata.subcategory}
+              </span>
+              <h1 className="text-4xl md:text-6xl font-heading font-bold tracking-tighter mb-6 leading-tight">
+                {productdata.name}
+              </h1>
+              
+              <div className="flex items-baseline gap-4 mb-8">
+                <span className="text-3xl font-light text-white">
+                  {currency}{productdata.price.toLocaleString()}
+                </span>
+                <span className="text-zinc-500 line-through text-lg decoration-1">
+                  {currency}{originalPrice.toLocaleString()}
+                </span>
+                <span className="bg-[#D4AF37]/10 text-[#D4AF37] text-[9px] tracking-widest uppercase px-2 py-1 font-bold">
+                  {discountPercentage}% Exclusive Saving
+                </span>
+              </div>
 
-            {productdata.sizes && productdata.sizes.length > 0 ? (
-              <div className="flex gap-3">
+              <p className="text-zinc-400 text-sm leading-relaxed font-light max-w-lg mb-8">
+                A masterwork of engineering and aesthetic restraint. Designed for the individual who appreciates 
+                the weight of heritage and the precision of the future.
+              </p>
+            </div>
+
+            {/* Size Selection */}
+            <div className="mb-10">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-[10px] tracking-[0.3em] uppercase text-zinc-500">Select Dimension</span>
+                <button className="text-[9px] tracking-widest uppercase text-zinc-500 hover:text-[#D4AF37] underline transition-colors">Size Guide</button>
+              </div>
+              <div className="flex flex-wrap gap-3">
                 {productdata.sizes.map((item, i) => (
                   <button
                     key={i}
                     onClick={() => setsize(item)}
-                    className={`px-4 py-2 border rounded-lg cursor-pointer transition ${
+                    className={`min-w-[60px] h-12 flex items-center justify-center text-xs tracking-widest border transition-all duration-300 ${
                       item === size
-                        ? "bg-white text-black border-black"
-                        : "bg-transparent text-white border-white hover:bg-white hover:text-black"
+                        ? "bg-white text-black border-white"
+                        : "bg-transparent text-white border-white/10 hover:border-[#D4AF37]"
                     }`}
                   >
                     {item}
                   </button>
                 ))}
               </div>
-            ) : (
-              <p className="text-gray-400 opacity-0 text-sm">
-                No sizes available
-              </p>
-            )}
-          </div>
-          <span>
-            {productdata.stock > 0 ? (
-              <span className="px-3 py-1 text-xs font-semibold text-green-600 border border-green-600 rounded">
-                In Stock
-              </span>
-            ) : (
-              <span className="px-3 py-1 text-xs font-semibold text-red-600 border border-red-600 rounded">
-                Out of Stock
-              </span>
-            )}
-          </span>
+            </div>
 
-          <ProductDetailsTabs productdata={productdata} />
+            {/* Inventory Status */}
+            <div className="flex items-center gap-3 mb-10">
+              <div className={`w-1.5 h-1.5 rounded-full ${productdata.stock > 0 ? "bg-green-500 animate-pulse" : "bg-red-500"}`}></div>
+              <span className="text-[10px] tracking-[0.2em] uppercase text-zinc-400">
+                {productdata.stock > 0 ? "Available for immediate dispatch" : "Individually Backordered"}
+              </span>
+            </div>
 
-          <div className="flex flex-col md:flex-row pt-4 gap-4">
-            <button
-              onClick={() => addTOCart(productdata._id, size)}
-              className="flex-1 px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition"
-            >
-              Add to Cart
-            </button>
-            <button
-              onClick={() => addTOCart(productdata._id, size)}
-              className="flex-1 px-6 py-3 border border-white text-white font-semibold rounded-lg hover:bg-white hover:text-black transition"
-            >
-              Buy Now
-            </button>
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <button
+                onClick={() => addTOCart(productdata._id, size)}
+                className="flex-[2] h-16 bg-white text-black text-[11px] font-bold tracking-[0.4em] uppercase hover:bg-[#D4AF37] hover:text-white transition-all duration-500"
+              >
+                Add to Bag
+              </button>
+              <button
+                onClick={() => addTOCart(productdata._id, size)}
+                className="flex-1 h-16 border border-white/20 text-white text-[11px] font-bold tracking-[0.4em] uppercase hover:bg-white hover:text-black transition-all duration-500"
+              >
+                Inquiry
+              </button>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-white/5">
+              <div className="flex flex-col items-center text-center gap-2">
+                <Truck size={16} className="text-[#D4AF37] stroke-1" />
+                <span className="text-[8px] tracking-widest uppercase text-zinc-500">Free Express Delivery</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-2">
+                <ShieldCheck size={16} className="text-[#D4AF37] stroke-1" />
+                <span className="text-[8px] tracking-widest uppercase text-zinc-500">2 Year Warranty</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-2">
+                <RefreshCw size={16} className="text-[#D4AF37] stroke-1" />
+                <span className="text-[8px] tracking-widest uppercase text-zinc-500">Certified Authentic</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* DETAILS TABS & ADDITIONAL INFO */}
+        <div className="mt-32">
+          <ProductDetailsTabs productdata={productdata} />
+          
+        </div>
+
+        {/* RELATED PRODUCTS */}
+        <div className="py-20">
+        
+          <RelatedProduct category={productdata.category} subcategory={productdata.subcategory} />
+        </div>
       </div>
-
-{/* some info and related products */}
-<div className="mt-8">
-<ProductMaindetail productdata={productdata} />
-
-
-  </div>
-  <RelatedProduct category={productdata.category} subcategory={productdata.subcategory} />
-  
-<Footer/>
-
-    </div>
-  ) : (
-    <div className=" flex items-center justify-center h-screen text-2xl font-semibold font-[font1]">
-      Loading...
+      <Footer />
     </div>
   );
 };

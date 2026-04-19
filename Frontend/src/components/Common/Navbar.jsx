@@ -1,15 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FaHeart, FaSearch, FaShoppingCart, FaUser } from "react-icons/fa";
-import {
-  HiDotsVertical,
-  HiMenu,
-  HiX,
-} from "react-icons/hi";
+import { 
+  Search, 
+  User, 
+  ShoppingCart, 
+  Menu, 
+  X, 
+  LogOut, 
+  Package, 
+  Settings, 
+  Headphones, 
+  MoreVertical 
+} from "lucide-react";
 
 import MobileMenu from "./MobileMenu";
-import { LogOutIcon, Search, User } from "lucide-react";
-
+import { ShopContext } from "../../context/ShopContext.jsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,153 +23,151 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ShopContext } from "../../context/ShopContext.jsx";
 
 const Navbar = () => {
   const [mobileview, setmobileview] = useState(false);
-
+  const [scrolled, setScrolled] = useState(false);
   const {
     showSearch,
     setshowSearch,
     getCartCount,
     navigate,
-    search,
-    setsearch,
     token,
     settoken,
     setCartItems,
   } = useContext(ShopContext);
 
-  
+  // Effect to handle glassmorphism on scroll
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const logoutHandler = () => {
-   
     localStorage.removeItem("token");
     settoken("");
     setCartItems({});
-     navigate("/login");
+    navigate("/login");
   };
 
-  
-
   return (
-    <nav className=" fixed top-0 z-10 w-full   bg-black/70 backdrop-blur-md">
-       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-[2px]
-                bg-gradient-to-r from-transparent via-[#ff0000] to-transparent opacity-40" />
-      <div className="max-w-7xl mx-auto gap-12 px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex gap-1 items-center">
+    <nav 
+      className={`fixed top-0 left-0 h-16 w-full z-50 transition-all duration-500 ${
+        scrolled ? "bg-black backdrop-blur-xl border-b border-white/5 py-2" : "bg-transparent py-4"
+      }`}
+    >
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <div className="flex items-center justify-between">
+          
+          {/* LEFT: MOBILE TOGGLE & NAVIGATION LINKS */}
+          <div className="flex items-center gap-8">
             <button
               onClick={() => setmobileview(!mobileview)}
-              className="text-white font-bold   flex items-center focus:outline-none"
+              className="lg:hidden text-white/70 hover:text-[#D4AF37] transition-colors"
             >
-              {mobileview ? <HiX size={24} /> : <HiMenu size={26} />}
+              {mobileview ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
             </button>
-            <NavLink
-              to="/"
-              className={` text-xl   md:text-3xl  font-bold text-white `}
-            >
-              <h1 className=" logo"><span className="bg-gradient-to-r from-[#680000] via-[#F5E6A1] to-[#B8860B] bg-clip-text text-transparent">F</span>ineset</h1>
-            </NavLink>
 
-            
+            {/* Desktop Navigation Links (Traditional for Shopping Sites) */}
+            <div className="hidden lg:flex items-center gap-8">
+              {['Collection', 'New Arrivals', 'About'].map((item) => (
+                <NavLink 
+                  key={item}
+                  to={`/${item.toLowerCase().replace(" ", "-")}`}
+                  className="text-[10px] tracking-[0.3em] uppercase text-white/60 hover:text-[#D4AF37] transition-all duration-300"
+                >
+                  {item}
+                </NavLink>
+              ))}
+            </div>
           </div>
 
-{/* todo search bar */}
-          {/* <div className="hidden md:flex flex-1 ">
-            <div className="flex flex-1 mx-4">
-              <div className="relative w-full">
-                <HiOutlineSearch
-                  className="absolute top-3 left-3 "
-                  size={20}
-                />
-                <input
-                  type="text"
-                  value={search}
-          onChange={(e) => setsearch(e.target.value)}
-                  placeholder="Search for Products, Brands and More"
-                  className="w-full pl-10 pr-4 py-2 border rounded"
-                />
-              </div>
-            </div>
-          </div> */}
+          {/* CENTER: LOGO (The Hero of the Navbar) */}
+          <NavLink to="/" className="absolute left-1/2 -translate-x-1/2 group">
+            <h1 className="text-xl md:text-2xl font-heading font-bold tracking-[0.4em] text-white">
+              F<span className="text-[#D4AF37]">I</span>NESET
+            </h1>
+            <div className="w-0 h-[1px] bg-[#D4AF37] mx-auto transition-all duration-500 group-hover:w-full opacity-50"></div>
+          </NavLink>
 
-
-          <div className="flex items-center gap-4 space-x-0 md:space-x-4">
-            <div className="flex cursor-pointer items-center gap-2">
-              <Search onClick={() => setshowSearch(!showSearch)} size={20} />
-              
-            </div>
+          {/* RIGHT: ACTIONS */}
+          <div className="flex items-center gap-4 md:gap-7">
             
-      
-
-
-
-            <DropdownMenu>
-              <DropdownMenuTrigger onClick={()=>token ? null : navigate("/login")}  className="flex cursor-pointer items-center ">
-                <User size={20} />
-                <p>{token ? "Profile" : "Login"}</p>
-              </DropdownMenuTrigger>
-             {
-              token ? ( <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link to="/profile">Profile</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/user-orders") } >Orders</DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
-                <DropdownMenuItem onClick={logoutHandler}>
-                  Log Out <LogOutIcon className="ml-2 h-4 w-4" />
-                </DropdownMenuItem>
-              </DropdownMenuContent>) : null
-             }
-            </DropdownMenu>
-
-                       <NavLink to="/cart" className=" hover:text-white/80 relative"><FaShoppingCart size={21} /> <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]  ">{getCartCount()}</p></NavLink>
-
-
-            {/* Dropdown Menu */}
-
-            <DropdownMenu>
-              <DropdownMenuTrigger className="hidden bg-black text-white md:flex cursor-pointer items-center gap-2">
-                <HiDotsVertical size={20} />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>Notification Preferences</DropdownMenuItem>
-                <DropdownMenuItem>24x7 Customer Care</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/login")}>Login</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          {/* <div className="md:hidden flex gap-4 items-center">
-            <span
-              className="text-gray-600 hover:text-gray-900  cursor-pointer "
+            {/* Search Toggle */}
+            <button 
               onClick={() => setshowSearch(!showSearch)}
+              className="text-white/70 hover:text-[#D4AF37] transition-all duration-300"
             >
-              <FaSearch />
-            </span>
-            <NavLink
-              to="/cart"
-              className="text-gray-600 hover:text-gray-900 relative"
-            >
-              <FaShoppingCart size={21} />{" "}
-              <p className="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]  ">
-                {getCartCount()}
-              </p>
-            </NavLink>{" "}
-            <NavLink
-              to="/profile"
-              onClick={() => setmobileview(false)}
-              className="block text-gray-600 hover:text-gray-900"
-            >
-              <FaUser />
+              <Search size={20} strokeWidth={1.5} />
+            </button>
+
+            {/* Profile Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button 
+                  className="flex items-center gap-2 text-white/70 hover:text-[#D4AF37] transition-all duration-300 outline-none"
+                  onClick={() => !token && navigate("/login")}
+                >
+                  <User size={20} strokeWidth={1.5} />
+                  <span className="hidden md:block text-[10px] tracking-widest uppercase font-medium">
+                    {token ? "Account" : "Login"}
+                  </span>
+                </button>
+              </DropdownMenuTrigger>
+              
+              {token && (
+                <DropdownMenuContent align="end" className="w-52 mt-4 bg-zinc-950/95 backdrop-blur-2xl text-white  border-white/10 rounded-none p-2">
+                  <DropdownMenuLabel className="font-light text-[10px] tracking-widest text-zinc-500 uppercase pb-2">
+                    Member Access
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator className="bg-white/5" />
+                  <DropdownMenuItem onClick={() => navigate("/profile")} className="py-3 text-xs tracking-wider cursor-pointer ">
+                    <User className="mr-3 h-4 w-4 text-[#D4AF37]" /> My Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/user-orders")} className="py-3 text-xs tracking-wider cursor-pointer ">
+                    <Package className="mr-3 h-4 w-4 text-[#D4AF37]" /> Order History
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="bg-white/5" />
+                  <DropdownMenuItem onClick={logoutHandler} className="py-3 text-xs tracking-wider hover:text-red-400 cursor-pointer ">
+                    <LogOut className="mr-3 h-4 w-4" /> Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              )}
+            </DropdownMenu>
+
+            {/* Cart Icon */}
+            <NavLink to="/cart" className="relative text-white/70 hover:text-[#D4AF37] transition-all duration-300">
+              <ShoppingCart size={20} strokeWidth={1.5} />
+              {getCartCount() > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#D4AF37] text-[8px] font-bold text-black">
+                  {getCartCount()}
+                </span>
+              )}
             </NavLink>
-          </div> */}
+
+            {/* Support / Secondary Options */}
+            <div className="hidden md:block">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="text-white/40 hover:text-white transition-all outline-none">
+                  <MoreVertical size={18} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-zinc-950 text-white border-white/5 rounded-none">
+                  <DropdownMenuItem className="text-[10px] tracking-widest uppercase cursor-pointer">
+                    <Settings className="mr-2 h-3 w-3" /> Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="text-[10px] tracking-widest uppercase cursor-pointer">
+                    <Headphones className="mr-2 h-3 w-3" /> Concierge
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+          </div>
         </div>
       </div>
 
+      
       <MobileMenu mobileview={mobileview} setmobileview={setmobileview} />
     </nav>
   );

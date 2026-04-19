@@ -167,3 +167,7 @@ body{
     @apply bg-background text-foreground;
     }
 }
+
+.border-text {
+                    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+                }

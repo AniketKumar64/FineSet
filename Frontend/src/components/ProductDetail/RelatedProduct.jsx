@@ -8,28 +8,66 @@ const RelatedProduct = ({ category, subcategory }) => {
 
   useEffect(() => {
     if (products.length > 0) {
-      let productCopy = products.slice();
-
-      productCopy = productCopy.filter((item) => category === item.category);
-      productCopy = productCopy.filter(
-        (item) => subcategory === item.subcategory
+      // Filter by category and subcategory for high relevance
+      let filtered = products.filter(
+        (item) => category === item.category && subcategory === item.subcategory
       );
 
-      setrelated(productCopy.slice(0, 4));
+      // If not enough subcategory matches, fall back to just category
+      if (filtered.length < 1) {
+        filtered = products.filter((item) => category === item.category);
+      }
+
+      // Slice to show top 4 cinematic picks
+      setrelated(filtered.slice(0, 4));
     }
-  }, []);
+  }, [products, category, subcategory]); // Added dependencies for reactive updates
 
   return (
-    <div className="flex flex-col px-6 w-full max-w-7xl mx-auto py-10">
-      <div className="flex pb-12 ">
-        <h2 className="text-3xl font-bold">Related Products...</h2>
-      </div>{" "}
-      <div onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="grid grid-cols-1  md:grid-cols-4 gap-6 mt-4 h-full scrollbar-hide px-1">
-        {related.map((item) => (
-          <ProductCard key={item._id} product={item} />
-        ))}
+    <section className="bg-[#050505] py-24 border-t border-white/5">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-20">
+        
+        {/* Editorial Header */}
+        <div className="flex flex-col mb-16">
+          <span className="text-[#D4AF37] text-[10px] tracking-[0.5em] uppercase mb-3 block">
+            The Collection
+          </span>
+          <h2 className="text-4xl md:text-5xl font-heading font-bold tracking-tighter text-white">
+            COMPLEMENTARY <span className="text-zinc-500 italic font-light">PIECES</span>
+          </h2>
+        </div>
+
+        {/* Product Gallery Grid */}
+        <div 
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12"
+        >
+          {related.length > 0 ? (
+            related.map((item) => (
+              <div 
+                key={item._id} 
+                className="transform transition-transform duration-700 hover:-translate-y-2"
+              >
+                <ProductCard product={item} />
+              </div>
+            ))
+          ) : (
+            // Empty state placeholder to maintain layout height
+            [...Array(4)].map((_, i) => (
+              <div key={i} className="h-80 bg-white/[0.02] animate-pulse"></div>
+            ))
+          )}
+        </div>
+
+        {/* Cinematic Branding Detail */}
+        <div className="mt-20 pt-10 border-t border-white/5 flex justify-between items-center">
+            <p className="text-[9px] tracking-[0.3em] text-zinc-600 uppercase">
+                Curated for the Fineset 1994 Series
+            </p>
+            <div className="h-[1px] flex-1 mx-10 bg-gradient-to-r from-white/10 to-transparent"></div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

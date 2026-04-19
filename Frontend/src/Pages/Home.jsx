@@ -11,40 +11,17 @@ import Reviews from '../components/Home/ReviewCard';
 
 const Home = () => {
 
-  const testimonials = [
-    {
-      name: "Alice Johnson",
-      text: "Fantastic products and top-notch customer service! Highly recommend.",
-      avatar: "https://randomuser.me/api/portraits/women/5.jpg",
-    },
-    {
-      name: "Mark Smith",
-      text: "A seamless shopping experience with great deals. Will shop again!",
-      avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    },
-  ];
-
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-
-
 
 
   return (
-    <div>
+    <div className="bg-[#050505] min-h-screen">
       <Hero/>
       <Marquee/>
       <AboutSection/>
-     
-     
-   
-     <LatestCollection/>
-<Reviews/>
-
-
+      <LatestCollection/>
+      <Reviews/>
       <Contact/>
-    
-    <Footer/>
-   
+      <Footer/>
     </div>
   )
 }
